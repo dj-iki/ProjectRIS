@@ -33,12 +33,12 @@ public class SecurityConfig {
 	@Autowired
 	AuthorizationFilter authorizationFilter;
 
-
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-														.anyRequest().authenticated())
+		http.authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/login.jsp")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/error")).permitAll().anyRequest().authenticated())
 				.csrf(customizer -> customizer.disable())
 				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -46,32 +46,28 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	AuthenticationManager athenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
+	AuthenticationManager athenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder)
+			throws Exception {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder);
-		
+
 		return new ProviderManager(authenticationProvider);
 	}
-	
+
 	@Bean
 	PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	private SecurityScheme createAPIKeyScheme() {
-	    return new SecurityScheme().type(SecurityScheme.Type.HTTP)
-	        .bearerFormat("JWT")
-	        .scheme("bearer");
+		return new SecurityScheme().type(SecurityScheme.Type.HTTP).bearerFormat("JWT").scheme("bearer");
 	}
 
-    @Bean
-    OpenAPI openAPI() {
-	    return new OpenAPI()
-	    		.addSecurityItem(new SecurityRequirement()
-	    		.addList("Bearer Authentication"))
-	            .components(new Components().addSecuritySchemes
-	            ("Bearer Authentication", createAPIKeyScheme()));
-	     
+	@Bean
+	OpenAPI openAPI() {
+		return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+				.components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
+
 	}
 }
