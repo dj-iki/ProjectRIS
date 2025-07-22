@@ -21,7 +21,7 @@ public class AppUserRegisterDTO {
 
 	@NotNull
 	@NotBlank(message = "Email can't be blank!")
-	@Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE)
+	@Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Email is not in email format")
 	private String email;
 
 	@NotNull
@@ -37,7 +37,7 @@ public class AppUserRegisterDTO {
 	private String surname;
 
 	@NotNull
-	private Role role;
+	private Integer role;
 
 	public String getUsername() {
 		return username;
@@ -79,11 +79,13 @@ public class AppUserRegisterDTO {
 		this.surname = surname;
 	}
 
-	public Role getRole() {
+	public Integer getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(Integer role) {
 		this.role = role;
 	}
+
+	
 }

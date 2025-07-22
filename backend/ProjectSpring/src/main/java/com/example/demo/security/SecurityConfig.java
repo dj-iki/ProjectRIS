@@ -36,9 +36,12 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+		http.authorizeHttpRequests(request -> request
+				.requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
 				.requestMatchers(new AntPathRequestMatcher("/login.jsp")).permitAll()
-				.requestMatchers(new AntPathRequestMatcher("/error")).permitAll().anyRequest().authenticated())
+				.requestMatchers(new AntPathRequestMatcher("/registration.jsp")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+				.anyRequest().authenticated())
 				.csrf(customizer -> customizer.disable())
 				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -60,14 +63,14 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	private SecurityScheme createAPIKeyScheme() {
-		return new SecurityScheme().type(SecurityScheme.Type.HTTP).bearerFormat("JWT").scheme("bearer");
-	}
-
-	@Bean
-	OpenAPI openAPI() {
-		return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
-				.components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
-
-	}
+//	private SecurityScheme createAPIKeyScheme() {
+//		return new SecurityScheme().type(SecurityScheme.Type.HTTP).bearerFormat("JWT").scheme("bearer");
+//	}
+//
+//	@Bean
+//	OpenAPI openAPI() {
+//		return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+//				.components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
+//
+//	}
 }
