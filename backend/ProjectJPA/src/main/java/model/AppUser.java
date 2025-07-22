@@ -23,9 +23,6 @@ public class AppUser implements Serializable {
 
 	private String name;
 
-	@Column(name="passport_number")
-	private String passportNumber;
-
 	private String password;
 
 	private String surname;
@@ -74,14 +71,6 @@ public class AppUser implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getPassportNumber() {
-		return this.passportNumber;
-	}
-
-	public void setPassportNumber(String passportNumber) {
-		this.passportNumber = passportNumber;
 	}
 
 	public String getPassword() {
