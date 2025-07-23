@@ -61,7 +61,7 @@ public class LoginAndRegistration {
 	        jwtCookie.setMaxAge(60*60);
 	        response.addCookie(jwtCookie);
 			
-			return "redirect:/index.jsp";
+			return "redirect:/search/redirect";
 		}catch(AuthenticationException ae) {
 			model.addAttribute("error", ae.getMessage());
 			return "login";

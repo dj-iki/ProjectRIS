@@ -1,7 +1,15 @@
 package model;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 
 
 /**
@@ -19,9 +27,12 @@ public class City implements Serializable {
 	private int idCity;
 
 	private String name;
-	
+
 	@ManyToOne
 	private Country country;
+	
+	@OneToMany(mappedBy="city")
+	private List<Airport> airports;
 
 	public City() {
 	}
@@ -50,4 +61,12 @@ public class City implements Serializable {
 		this.name = name;
 	}
 
+	public List<Airport> getAirports() {
+		return airports;
+	}
+
+	public void setAirports(List<Airport> airports) {
+		this.airports = airports;
+	}
+	
 }
