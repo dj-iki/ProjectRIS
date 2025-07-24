@@ -148,4 +148,11 @@ public class Flight implements Serializable {
 		this.appUsers = appUsers;
 	}
 
+	@Override
+	public String toString() {
+		return "Flight [idFlight=" + idFlight + ", arrivalTime=" + arrivalTime + ", departureTime=" + departureTime
+				+ ", flightNumber=" + flightNumber + ", bookings=" + bookings + ", airport1=" + airport1 + ", airport2="
+				+ airport2 + ", plane=" + plane + ", appUsers=" + appUsers + "]";
+	}
+
 }

@@ -30,7 +30,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		try {
-			System.out.println("FILTER CALLED");
+//			System.out.println("FILTER CALLED");
 			String authHeader = request.getHeader("Authorization");
 			String token, username = null;
 			if (authHeader != null && authHeader.startsWith("Bearer ")) {

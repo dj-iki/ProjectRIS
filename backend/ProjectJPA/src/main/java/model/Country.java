@@ -56,4 +56,9 @@ public class Country implements Serializable {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "Country [idCountry=" + idCountry + ", name=" + name + ", cities=" + cities + "]";
+	}
+
 }

@@ -2,31 +2,30 @@ package com.example.demo.dtos;
 
 import java.util.Date;
 
+import com.example.demo.validators.DateFutureOrPresent;
+
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import model.Airport;
 
 public class FlightDTO {
 
 	@NotNull
-	private Airport fromAirport;
+	private Integer fromAirport;
 	
-	@NotNull
-	private Airport toAirport;
+	private Integer toAirport;
 
 	@NotNull
-	@FutureOrPresent
+	@DateFutureOrPresent
 	private Date departureDate;
 	
 	@Future
 	private Date returningDate;
 
-	public Airport getFromAirport() {
+	public Integer getFromAirport() {
 		return fromAirport;
 	}
 
-	public void setFromAirport(Airport fromAirport) {
+	public void setFromAirport(Integer fromAirport) {
 		this.fromAirport = fromAirport;
 	}
 
@@ -46,11 +45,11 @@ public class FlightDTO {
 		this.returningDate = returningDate;
 	}
 
-	public Airport getToAirport() {
+	public Integer getToAirport() {
 		return toAirport;
 	}
 
-	public void setToAirport(Airport toAirport) {
+	public void setToAirport(Integer toAirport) {
 		this.toAirport = toAirport;
 	}
 
