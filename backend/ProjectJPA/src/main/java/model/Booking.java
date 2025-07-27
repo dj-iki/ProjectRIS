@@ -33,6 +33,9 @@ public class Booking implements Serializable {
 	@OneToMany(mappedBy="booking")
 	private List<Ticket> tickets;
 
+	@JoinColumn(name="number_of_seats")
+	private int numberOfSeats;
+	
 	public Booking() {
 	}
 
@@ -88,6 +91,14 @@ public class Booking implements Serializable {
 		ticket.setBooking(null);
 
 		return ticket;
+	}
+
+	public int getNumberOfSeats() {
+		return numberOfSeats;
+	}
+
+	public void setNumberOfSeats(int numberOfSeats) {
+		this.numberOfSeats = numberOfSeats;
 	}
 
 }

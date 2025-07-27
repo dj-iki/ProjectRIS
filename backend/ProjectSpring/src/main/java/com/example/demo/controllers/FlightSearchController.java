@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.dtos.BookingDTO;
 import com.example.demo.dtos.FlightDTO;
 import com.example.demo.services.FlightSearchService;
 
@@ -143,6 +144,11 @@ public class FlightSearchController {
 			session.setAttribute("returning", returning);
 		}
 		return "flightSearch";
+	}
+	
+	@ModelAttribute("bookingDTO")
+	public BookingDTO createBookingDTO() {
+		return new BookingDTO();
 	}
 
 	@InitBinder
