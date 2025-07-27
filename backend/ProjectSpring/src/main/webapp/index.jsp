@@ -19,10 +19,25 @@
 </head>
 <body>
 
-	<lable> Returning flight : <input type="checkbox"
+	<c:choose>
+		<c:when test="${!empty no_one_way_flights }">
+			${no_one_way_flights } <br>
+		</c:when>
+		<c:when test="${!empty no_returning_flights }">
+			${no_returning_flights }<br>
+		</c:when>
+		<c:when test="${!empty no_one_way_countries }">
+			${no_one_way_countries }<br>
+		</c:when>
+		<c:when test="${!empty no_returning_countries }">
+			${no_returning_countries }<br>
+		</c:when>
+	</c:choose>
+
+	<label> Returning flight : <input type="checkbox"
 		id="togleFormsCheckbox" onclick="togleForms()">
 	<br>
-	</lable>
+	</label>
 	<div id="form1">
 		<form:form action="/ProjectRIS/search/findFlights" method="get"
 			modelAttribute="flightDTO">

@@ -60,18 +60,35 @@ public class FlightSearchController {
 			session.removeAttribute("flight");
 			if (flightDTO.getToAirport() != null) {
 				flights = flightSearchService.getAllFlightsFromTo(flightDTO);
+				if(flights == null || flights.isEmpty()) {
+					model.addAttribute("no_one_way_flights", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " to " + flightSearchService.getAirportById(flightDTO.getToAirport()) + " for departure date " + flightDTO.getDepartureDate());
+					return "index";
+				}
 				session.setAttribute("flightsTo", flights);
 				if (flightDTO.getReturningDate() != null) {
 					List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
+					if(returning == null || returning.isEmpty()) {
+						model.addAttribute("no_returning_flights", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " to " + flightSearchService.getAirportById(flightDTO.getToAirport()) + " for departure date " + flightDTO.getDepartureDate() + " and returning date " + flightDTO.getReturningDate());
+						return "index";
+					}
 					session.setAttribute("returning", returning);
 				}
 				return "flightSearch";
 			} else {
 				if (flightDTO.getReturningDate() != null) {
 					countries = flightSearchService.getReturningCountries(flightDTO);
+					if(countries == null || countries.isEmpty()) {
+						model.addAttribute("no_one_way_countries", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " for departure date " + flightDTO.getDepartureDate());
+						return "index";
+					}
 				} else {
 					countries = flightSearchService.getToCountries(flightDTO);
+					if(countries == null || countries.isEmpty()) {
+						model.addAttribute("no_returning_countries", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " for departure date " + flightDTO.getDepartureDate() + " and returning date " + flightDTO.getReturningDate());
+						return "index";
+					}
 				}
+				
 				session.setAttribute("countries", countries);
 				session.setAttribute("flight", flightDTO);
 				return "countrySearch";
