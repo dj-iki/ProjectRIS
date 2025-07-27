@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dtos.FlightDTO;
 import com.example.demo.services.FlightSearchService;
@@ -24,17 +23,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import model.Airport;
+import model.City;
 import model.Country;
 import model.Flight;
 
 @Controller
 @RequestMapping("/search")
 public class FlightSearchController {
-	
+
 	@Autowired
 	FlightSearchService flightSearchService;
-	
-	
+
 	@GetMapping("/redirect")
 	public String redirect(HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -42,48 +41,98 @@ public class FlightSearchController {
 		session.setAttribute("airports", airports);
 		return "index";
 	}
-	
+
 	@ModelAttribute("flightDTO")
 	public FlightDTO createFlightDTO() {
 		return new FlightDTO();
 	}
-	
+
 	@GetMapping("/findFlights")
-	public String findFlightsFrom(@Valid @ModelAttribute("flightDTO") FlightDTO flightDTO, BindingResult result, Model model) {
-		if(!result.hasErrors()) {
+	public String findFlightsFrom(@Valid @ModelAttribute("flightDTO") FlightDTO flightDTO, BindingResult result,
+			Model model, HttpServletRequest request) {
+		if (!result.hasErrors()) {
+			HttpSession session = request.getSession();
 			List<Flight> flights = null;
 			List<Country> countries = null;
-			if(flightDTO.getToAirport()!=null) {
+			session.removeAttribute("returning");
+			session.removeAttribute("flightsTo");
+			session.removeAttribute("countries");
+			session.removeAttribute("flight");
+			if (flightDTO.getToAirport() != null) {
 				flights = flightSearchService.getAllFlightsFromTo(flightDTO);
-				for(Flight flight : flights) {
-					System.out.println(flight);
+				session.setAttribute("flightsTo", flights);
+				if (flightDTO.getReturningDate() != null) {
+					List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
+					session.setAttribute("returning", returning);
 				}
-			}else {
-				countries = flightSearchService.getToCountries(flightDTO);
-				for(Country country : countries) {
-					System.out.println(country);
+				return "flightSearch";
+			} else {
+				if (flightDTO.getReturningDate() != null) {
+					countries = flightSearchService.getReturningCountries(flightDTO);
+				} else {
+					countries = flightSearchService.getToCountries(flightDTO);
 				}
+				session.setAttribute("countries", countries);
+				session.setAttribute("flight", flightDTO);
+				return "countrySearch";
 			}
-			
-			if(flightDTO.getReturningDate()!=null) {
-				List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
-				for(Flight flight : returning) {
-					System.out.println(flight);
-				}
-			}
-			return "index";
 		}
 		model.addAttribute("validation_error", "There was an error with validating");
 		model.addAttribute("errors", result.getAllErrors());
 		return "index";
-		
+
+	}
+
+	@GetMapping("/cities")
+	public String findCities(@RequestParam("countryId") Integer countryId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("cities");
+		FlightDTO flightDTO = (FlightDTO) session.getAttribute("flight");
+		List<City> cities;
+		if (flightDTO.getReturningDate() == null) {
+			cities = flightSearchService.getToCities(countryId, flightDTO);
+		} else {
+			cities = flightSearchService.getReturningCities(countryId, flightDTO);
+			
+		}
+		session.setAttribute("cities", cities);
+		return "citySearch";
 	}
 	
+	@GetMapping("/airports")
+	public String findAirports(@RequestParam("cityId")Integer cityId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		FlightDTO flightDTO = (FlightDTO) session.getAttribute("flight");
+		session.removeAttribute("airports");
+		List<Airport> airports;
+		if(flightDTO.getReturningDate()==null) {
+			airports = flightSearchService.getToAirports(cityId, flightDTO);
+		}else {
+			airports = flightSearchService.getReturningAirports(cityId, flightDTO);
+		}
+		session.setAttribute("airports", airports);
+		return "airportSearch";
+	}
+	
+	@GetMapping("/flightsFromCountries")
+	public String findFlightsFromCountries(@RequestParam("airportId") Integer airportId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		FlightDTO flightDTO = (FlightDTO) session.getAttribute("flight");
+		flightDTO.setToAirport(airportId);
+		List<Flight> flights = flightSearchService.getAllFlightsFromTo(flightDTO);
+		session.setAttribute("flightsTo", flights);
+		if (flightDTO.getReturningDate() != null) {
+			List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
+			session.setAttribute("returning", returning);
+		}
+		return "flightSearch";
+	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setLenient(true);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
 	}
-	
+
 }

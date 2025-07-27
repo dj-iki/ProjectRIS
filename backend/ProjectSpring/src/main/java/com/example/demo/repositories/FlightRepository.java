@@ -12,7 +12,35 @@ import model.Airport;
 import model.Flight;
 
 @Repository
-public interface FlightRepository extends JpaRepository<Flight, Integer>{
-	@Query("select f from Flight f where f.airport1=:from and f.airport2=:to and f.departureTime>:departureFromTime and f.departureTime<:departureToTime")
-	List<Flight> getAllFlightsFromTo(@Param("from")Airport from, @Param("to") Airport to, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime);
+public interface FlightRepository extends JpaRepository<Flight, Integer> {
+	@Query("select distinct f from Flight f "
+			+ "inner join f.plane.seats s "
+			+ "where f.airport1=:from and "
+				+ "f.airport2=:to and "
+				+ "f.departureTime>:departureFromTime and "
+				+ "f.departureTime<:departureToTime and "
+				+ "s not in ("
+					+ "select s from Ticket t "
+					+ "where t.booking.flight = f"
+				+ ")")
+	List<Flight> getAllFlightsFromTo(@Param("from") Airport from, @Param("to") Airport to,
+			@Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime);
+	
+	@Query("select f from Flight f "
+			+ "inner join f.plane.seats s "
+			+ "where f.airport1=:fromAirport and "
+			+ "f.departureTime>:departureFromTime and "
+			+ "f.departureTime<:departureToTime and "
+			+ "s not in ("
+			+ "	select t.seat from Ticket t"
+			+ "	where t.booking.flight = f"
+			+ ")")
+	List<Flight> getToFlights(@Param("fromAirport") Airport fromAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime);
+	
+	@Query("select f from Flight f "
+			+ "where f.airport2=:returningAirport and "
+			+ "f.departureTime>:departureFromTime and "
+			+ "f.departureTime<:departureToTime and "
+			+ "f in (:flights)")
+	List<Flight> getReturningFlights(@Param("returningAirport")Airport returningAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime, @Param("flights") List<Flight> flights);
 }
