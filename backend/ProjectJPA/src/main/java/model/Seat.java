@@ -21,9 +21,6 @@ public class Seat implements Serializable {
 	@Column(name="class")
 	private String class_;
 
-	@Column(name="is_booked")
-	private byte isBooked;
-
 	private float price;
 
 	@Column(name="seat_number")
@@ -54,14 +51,6 @@ public class Seat implements Serializable {
 
 	public void setClass_(String class_) {
 		this.class_ = class_;
-	}
-
-	public byte getIsBooked() {
-		return this.isBooked;
-	}
-
-	public void setIsBooked(byte isBooked) {
-		this.isBooked = isBooked;
 	}
 
 	public float getPrice() {

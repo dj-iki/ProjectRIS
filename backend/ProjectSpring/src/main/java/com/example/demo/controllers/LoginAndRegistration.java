@@ -48,25 +48,30 @@ public class LoginAndRegistration {
 	}
 	
 	@PostMapping("/login")
-	public String login(@Valid @ModelAttribute("appUserLoginDTO") AppUserLoginDTO appUserLoginDTO, HttpServletResponse response, Model model) {
-		try {
-			authManager.authenticate(new UsernamePasswordAuthenticationToken(appUserLoginDTO.getUsername(), appUserLoginDTO.getPassword()));
-			AppUserDetails userDetails = (AppUserDetails) userService.loadUserByUsername(appUserLoginDTO.getUsername());
-			String token = jwtService.generateToken(userDetails);
-			
-
-	        Cookie jwtCookie = new Cookie("jwt", token);
-	        jwtCookie.setHttpOnly(true);
-	        jwtCookie.setPath("/");
-	        jwtCookie.setMaxAge(60*60);
-	        response.addCookie(jwtCookie);
-			
-			return "redirect:/index.jsp";
-		}catch(AuthenticationException ae) {
-			model.addAttribute("error", ae.getMessage());
+	public String login(@Valid @ModelAttribute("appUserLoginDTO") AppUserLoginDTO appUserLoginDTO, BindingResult result, HttpServletResponse response, Model model) {
+		if(!result.hasErrors()) {
+			try {
+				authManager.authenticate(new UsernamePasswordAuthenticationToken(appUserLoginDTO.getUsername(), appUserLoginDTO.getPassword()));
+				AppUserDetails userDetails = (AppUserDetails) userService.loadUserByUsername(appUserLoginDTO.getUsername());
+				String token = jwtService.generateToken(userDetails);
+				
+	
+		        Cookie jwtCookie = new Cookie("jwt", token);
+		        jwtCookie.setHttpOnly(true);
+		        jwtCookie.setPath("/");
+		        jwtCookie.setMaxAge(60*60);
+		        response.addCookie(jwtCookie);
+				
+				return "redirect:/search/redirect";
+			}catch(Exception e) {
+				model.addAttribute("exception", e.getMessage());
+				return "login";
+			}
+		}else {
+			model.addAttribute("validation_error", "There was an error with validating");
+			model.addAttribute("errors", result.getAllErrors());
 			return "login";
 		}
-		
 	}
 	
 	@GetMapping("/logout")

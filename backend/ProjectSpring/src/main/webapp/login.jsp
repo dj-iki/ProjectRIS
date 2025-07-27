@@ -17,6 +17,15 @@
 		<input type="password" name="password">
 		<input type="submit" value="Login">
 	</form>
-	
+	<c:if test="${!empty exception }">
+		<p>${exception }</p>
+	</c:if>
+	<c:if test="${!empty validation_error }">
+		<h4>${validation_error }</h4>
+		------------------------------------
+		<c:forEach items="${errors}" var="error">
+			<p>${error.defaultMessage }</p>
+		</c:forEach>
+	</c:if>
 </body>
 </html>
