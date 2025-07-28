@@ -36,7 +36,7 @@
 						</c:forEach>
 					</div>
 				</div>
-				<form:input type="number" path="numberOfSeats"/> 
+				<form:input type="hidden" value="${flights }" path="numberOfSeats"/> 
 				<input type="submit" value="Book">
 			</form:form>
 		</c:when>
@@ -51,7 +51,7 @@
 					<p>${flight.departureTime }---->${flight.arrivalTime }</p>
 					<form:radiobutton path="flightIdFrom" value="${flight.idFlight }"/>
 				</c:forEach>
-				<form:input type="number" path="numberOfSeats"/>
+				<form:input type="hidden" value="${numberOfSeats }" path="numberOfSeats"/>
 				<input type="submit" value="Book">
 			</form:form>
 		</c:otherwise>

@@ -13,6 +13,8 @@ public class FlightDTO {
 	private Integer fromAirport;
 	
 	private Integer toAirport;
+	
+	private Integer numberOfSeats;
 
 	@NotNull
 	@DateFutureOrPresent
@@ -41,7 +43,7 @@ public class FlightDTO {
 		return returningDate;
 	}
 
-	public void setreturningDate(Date returningDate) {
+	public void setReturningDate(Date returningDate) {
 		this.returningDate = returningDate;
 	}
 
@@ -52,7 +54,13 @@ public class FlightDTO {
 	public void setToAirport(Integer toAirport) {
 		this.toAirport = toAirport;
 	}
+	
+	public Integer getNumberOfSeats() {
+		return numberOfSeats;
+	}
 
-
+	public void setNumberOfSeats(Integer numberOfSeats) {
+		this.numberOfSeats = numberOfSeats;
+	}
 
 }

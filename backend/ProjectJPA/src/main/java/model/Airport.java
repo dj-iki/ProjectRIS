@@ -18,6 +18,8 @@ public class Airport implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idAirport;
 
+	@ManyToOne
+	private City city;
 
 	@Column(name="iata_code")
 	private String iataCode;
@@ -26,9 +28,6 @@ public class Airport implements Serializable {
 	private String icaoCode;
 
 	private String name;
-	
-	@ManyToOne
-	private City city;
 
 	//bi-directional many-to-one association to Flight
 	@OneToMany(mappedBy="airport1")
@@ -41,20 +40,20 @@ public class Airport implements Serializable {
 	public Airport() {
 	}
 
-	public City getCity() {
-		return city;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
-	}
-
 	public int getIdAirport() {
 		return this.idAirport;
 	}
 
 	public void setIdAirport(int idAirport) {
 		this.idAirport = idAirport;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	public String getIataCode() {

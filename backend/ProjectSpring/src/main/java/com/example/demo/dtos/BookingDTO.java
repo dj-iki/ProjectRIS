@@ -59,5 +59,20 @@ public class BookingDTO {
 	public void setTicketsReturningDTO(List<TicketDTO> ticketsReturningDTO) {
 		this.ticketsReturningDTO = ticketsReturningDTO;
 	}
-	
+
+	@Override
+	public String toString() {
+		String result = "BookingDTO = {"
+				+ " flightIdFrom=" + flightIdFrom + ", flightIdReturning=" + flightIdReturning +", numberOfSeats=" + numberOfSeats;
+		result += "\nticketsFromDTO=[ ";
+		for(TicketDTO ticket : ticketsFromDTO) {
+			result += ticket + ", ";
+		}
+		
+		result += "]\nticketsReturningDTO=[ ";
+		for(TicketDTO ticket : ticketsReturningDTO) {
+			result += ticket + ", ";
+		}
+		return result += "]";
+	}
 }

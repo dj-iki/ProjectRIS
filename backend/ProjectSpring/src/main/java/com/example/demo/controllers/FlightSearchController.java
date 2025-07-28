@@ -59,6 +59,7 @@ public class FlightSearchController {
 			session.removeAttribute("flightsTo");
 			session.removeAttribute("countries");
 			session.removeAttribute("flight");
+			session.removeAttribute("numberOfSeats");
 			if (flightDTO.getToAirport() != null) {
 				flights = flightSearchService.getAllFlightsFromTo(flightDTO);
 				if(flights == null || flights.isEmpty()) {
@@ -66,6 +67,7 @@ public class FlightSearchController {
 					return "index";
 				}
 				session.setAttribute("flightsTo", flights);
+				session.setAttribute("numberOfSeats", flightDTO.getNumberOfSeats());
 				if (flightDTO.getReturningDate() != null) {
 					List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
 					if(returning == null || returning.isEmpty()) {
@@ -139,6 +141,7 @@ public class FlightSearchController {
 		flightDTO.setToAirport(airportId);
 		List<Flight> flights = flightSearchService.getAllFlightsFromTo(flightDTO);
 		session.setAttribute("flightsTo", flights);
+		session.setAttribute("numberOfSeats", flightDTO.getNumberOfSeats());
 		if (flightDTO.getReturningDate() != null) {
 			List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
 			session.setAttribute("returning", returning);

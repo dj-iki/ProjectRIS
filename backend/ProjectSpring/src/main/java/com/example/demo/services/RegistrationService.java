@@ -30,22 +30,26 @@ public class RegistrationService {
 		return roleRepository.findById(id).get();
 	}
 
-	public boolean saveAppUser(AppUserRegisterDTO appUserDTO) {
+	public String saveAppUser(AppUserRegisterDTO appUserDTO) {
 		try{
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			AppUser appUser = new AppUser();
-			appUser.setUsername(appUserDTO.getUsername());
-			appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
-			appUser.setEmail(appUserDTO.getEmail());
-			appUser.setName(appUserDTO.getName());
-			appUser.setSurname(appUserDTO.getSurname());
-			appUser.setRole(getRoleById(appUserDTO.getRole()));
-			
-			appUser = appUserRepository.save(appUser);
-			return true;
+			if(appUserRepository.findAppUserByUsername(appUserDTO.getUsername())==null) {
+				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+				AppUser appUser = new AppUser();
+				appUser.setUsername(appUserDTO.getUsername());
+				appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
+				appUser.setEmail(appUserDTO.getEmail());
+				appUser.setName(appUserDTO.getName());
+				appUser.setSurname(appUserDTO.getSurname());
+				appUser.setRole(getRoleById(appUserDTO.getRole()));
+				
+				appUser = appUserRepository.save(appUser);
+				return "Successful registration";
+			}else {
+				return "Error with registration - Username \"" + appUserDTO.getUsername() + "\" is already in use. Please enter another.";
+			}
 		}catch(Exception e) {
-			System.out.println("There was an error with registration");
-			return false;
+			
+			return "Error with registration - " + e.getMessage();
 		}
 		
 	}

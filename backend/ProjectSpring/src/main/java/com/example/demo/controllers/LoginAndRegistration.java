@@ -111,12 +111,13 @@ public class LoginAndRegistration {
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("appUserRegisterDTO") AppUserRegisterDTO appUserRegisterDTO, BindingResult result, Model model) {
 		if(!result.hasErrors()) {
-			if(!registrationService.saveAppUser(appUserRegisterDTO)) {
-				model.addAttribute("error_with_adding_user", "Something went wrong with registration. Please try again");
+			String registrationResult = registrationService.saveAppUser(appUserRegisterDTO);
+			if(registrationResult.startsWith("Error")) {
+				model.addAttribute("error_with_adding_user", registrationResult);
 				return "registration";
 			}
 			else {
-				model.addAttribute("seccessful_registration", "Registration was seccessful. Pleas log in");
+				model.addAttribute("successful_registration", "Registration was seccessful. Pleas log in");
 				return "login";
 			}
 		};

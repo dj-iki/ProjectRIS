@@ -54,6 +54,7 @@
 				</c:forEach>
 			</form:select>
 			<form:input path="departureDate" type="date" />
+			<form:input path="numberOfSeats" type="number"/>
 			<input type="submit" value="Search">
 		</form:form>
 	</div>
@@ -73,6 +74,7 @@
 			</form:select>
 			<form:input path="departureDate" type="date" />
 			<form:input path="returningDate" type="date" />
+			<form:input path="numberOfSeats" type="number"/>
 			<input type="submit" value="Search">
 		</form:form>
 	</div>

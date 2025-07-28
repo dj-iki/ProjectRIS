@@ -19,6 +19,7 @@ import jakarta.persistence.OneToMany;
 @Entity
 @NamedQuery(name="City.findAll", query="SELECT c FROM City c")
 public class City implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	
 
@@ -67,6 +68,16 @@ public class City implements Serializable {
 
 	public void setAirports(List<Airport> airports) {
 		this.airports = airports;
+	}
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+	
+	@Override
+	public String toString() {
+		return "City [idCity=" + idCity + ", name=" + name + ", country=" + country + "]";
 	}
 	
 }
