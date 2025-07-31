@@ -13,24 +13,31 @@ import model.Airport;
 @Repository
 public interface AirportRepository extends JpaRepository<Airport, Integer> {
 	
-	@Query("select a from Airport a "
+	@Query("select distinct a from Airport a " 
 			+ "inner join a.flights2 f "
-			+ "inner join f.plane.seats s "
-			+ "where a.city.idCity=:cityId and "
-			+ "f.airport1=:fromAirport and "
-			+ "f.departureTime>:departureFromTime and "
-			+ "f.departureTime<:departureToTime and "
-			+ "s not in ("
-			+ "	select t.seat from Ticket t"
-			+ "	where t.booking.flight = f"
-			+ ")")
-	List<Airport> getToAirports(@Param("cityId") Integer cityId, @Param("fromAirport") Airport fromAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date depratureToTime);
+			+ "where f.airport1=:fromAirport and "
+				+ "a.city.idCity=:cityId and "
+				+ "f.departureTime>:departureFromTime and "
+				+ "f.departureTime<:departureToTime and "
+				+ ":numberOfSeats<("
+					+ "select count(s.idSeat) from Seat s where s.plane = f.plane and s not in ("
+						+ "select t.seat from Ticket t where t.booking.flight = f" 
+					+ ")" 
+				+ ")"
+			)
+	List<Airport> getToAirports(@Param("cityId") Integer cityId, @Param("fromAirport") Airport fromAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date depratureToTime, @Param("numberOfSeats") Integer numberOfSeats);
 	
-	@Query("select a from Airport a "
+	@Query("select distinct a from Airport a " 
 			+ "inner join a.flights1 f "
-			+ "where f.airport2=:returningAirport and "
-			+ "f.departureTime>:departureFromTime and "
-			+ "f.departureTime<:departureToTime and "
-			+ "a in (:airports)")
-	List<Airport> getReturningAirports(@Param("returningAirport") Airport returningAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime, @Param("airports") List<Airport> airports);
+			+ "where a in (:airports) and "
+				+ "f.airport2=:returningAirport and "
+				+ "f.departureTime>:departureFromTime and "
+				+ "f.departureTime<:departureToTime and "
+				+ ":numberOfSeats<("
+					+ "select count(s.idSeat) from Seat s where s.plane = f.plane and s not in ("
+						+ "select t.seat from Ticket t where t.booking.flight = f" 
+					+ ")" 
+				+ ")"
+			)
+	List<Airport> getReturningAirports(@Param("returningAirport") Airport returningAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime, @Param("airports") List<Airport> airports, @Param("numberOfSeats") Integer numberOfSeats);
 }

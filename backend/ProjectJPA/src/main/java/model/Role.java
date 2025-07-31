@@ -65,4 +65,9 @@ public class Role implements Serializable {
 		return appUser;
 	}
 
+	@Override
+	public String toString() {
+		return "Role [idRole=" + idRole + ", name=" + name + "]";
+	}
+
 }

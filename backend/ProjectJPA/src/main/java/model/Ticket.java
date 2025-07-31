@@ -24,10 +24,8 @@ public class Ticket implements Serializable {
 	private String passportNumber;
 
 	private String surname;
-
-	//bi-directional many-to-one association to Baggage
-	@OneToMany(mappedBy="ticket")
-	private List<Baggage> baggages;
+	
+	private String baggage;
 
 	//bi-directional many-to-one association to Booking
 	@ManyToOne
@@ -72,27 +70,6 @@ public class Ticket implements Serializable {
 		this.surname = surname;
 	}
 
-	public List<Baggage> getBaggages() {
-		return this.baggages;
-	}
-
-	public void setBaggages(List<Baggage> baggages) {
-		this.baggages = baggages;
-	}
-
-	public Baggage addBaggage(Baggage baggage) {
-		getBaggages().add(baggage);
-		baggage.setTicket(this);
-
-		return baggage;
-	}
-
-	public Baggage removeBaggage(Baggage baggage) {
-		getBaggages().remove(baggage);
-		baggage.setTicket(null);
-
-		return baggage;
-	}
 
 	public Booking getBooking() {
 		return this.booking;
@@ -108,6 +85,14 @@ public class Ticket implements Serializable {
 
 	public void setSeat(Seat seat) {
 		this.seat = seat;
+	}
+
+	public String getBaggage() {
+		return baggage;
+	}
+
+	public void setBaggage(String baggage) {
+		this.baggage = baggage;
 	}
 
 }

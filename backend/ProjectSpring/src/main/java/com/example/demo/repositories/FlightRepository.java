@@ -20,7 +20,7 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
 				+ "f.departureTime>:departureFromTime and "
 				+ "f.departureTime<:departureToTime and "
 				+ "s not in ("
-					+ "select s from Ticket t "
+					+ "select t.seat from Ticket t "
 					+ "where t.booking.flight = f"
 				+ ")")
 	List<Flight> getAllFlightsFromTo(@Param("from") Airport from, @Param("to") Airport to,

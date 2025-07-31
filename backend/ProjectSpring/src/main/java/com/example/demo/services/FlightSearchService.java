@@ -75,7 +75,7 @@ public class FlightSearchService {
 				Date dayAfter = calendar.getTime();
 				flightDTO.setDepartureDate(new Date());
 				List<Country> countries = countryRepository.getToCountries(from, flightDTO.getDepartureDate(),
-						dayAfter);
+						dayAfter, flightDTO.getNumberOfSeats());
 				return countries;
 			} else {
 				Calendar calendar = Calendar.getInstance();
@@ -83,7 +83,7 @@ public class FlightSearchService {
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 				Date dayAfter = calendar.getTime();
 				List<Country> countries = countryRepository.getToCountries(from, flightDTO.getDepartureDate(),
-						dayAfter);
+						dayAfter, flightDTO.getNumberOfSeats());
 				return countries;
 			}
 		} catch (Exception e) {
@@ -118,7 +118,7 @@ public class FlightSearchService {
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 			Date dayAfter = calendar.getTime();
 			countries = countryRepository.getReturningCountries(from, flightDTO.getReturningDate(), dayAfter,
-					countries);
+					countries, flightDTO.getNumberOfSeats());
 			return countries;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -135,14 +135,14 @@ public class FlightSearchService {
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 				Date dayAfter = calendar.getTime();
 				flightDTO.setDepartureDate(new Date());
-				List<City> cities = cityRepository.getToCities(countryId, from, flightDTO.getDepartureDate(), dayAfter);
+				List<City> cities = cityRepository.getToCities(countryId, from, flightDTO.getDepartureDate(), dayAfter, flightDTO.getNumberOfSeats());
 				return cities;
 			} else {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(flightDTO.getDepartureDate());
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 				Date dayAfter = calendar.getTime();
-				List<City> cities = cityRepository.getToCities(countryId, from, flightDTO.getDepartureDate(), dayAfter);
+				List<City> cities = cityRepository.getToCities(countryId, from, flightDTO.getDepartureDate(), dayAfter, flightDTO.getNumberOfSeats());
 				return cities;
 			}
 		} catch (Exception e) {
@@ -159,7 +159,7 @@ public class FlightSearchService {
 			calendar.setTime(flightDTO.getReturningDate());
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 			Date dayAfter = calendar.getTime();
-			cities = cityRepository.getReturningCities(from, flightDTO.getReturningDate(), dayAfter, cities);
+			cities = cityRepository.getReturningCities(from, flightDTO.getReturningDate(), dayAfter, cities, flightDTO.getNumberOfSeats());
 			return cities;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -177,7 +177,7 @@ public class FlightSearchService {
 				Date dayAfter = calendar.getTime();
 				flightDTO.setDepartureDate(new Date());
 				List<Airport> airports = airportRepository.getToAirports(cityId, from, flightDTO.getDepartureDate(),
-						dayAfter);
+						dayAfter, flightDTO.getNumberOfSeats());
 				return airports;
 			} else {
 				Calendar calendar = Calendar.getInstance();
@@ -185,7 +185,7 @@ public class FlightSearchService {
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 				Date dayAfter = calendar.getTime();
 				List<Airport> airports = airportRepository.getToAirports(cityId, from, flightDTO.getDepartureDate(),
-						dayAfter);
+						dayAfter, flightDTO.getNumberOfSeats());
 				return airports;
 			}
 		} catch (Exception e) {
@@ -202,7 +202,7 @@ public class FlightSearchService {
 			calendar.setTime(flightDTO.getReturningDate());
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 			Date dayAfter = calendar.getTime();
-			airports = airportRepository.getReturningAirports(from, flightDTO.getReturningDate(), dayAfter, airports);
+			airports = airportRepository.getReturningAirports(from, flightDTO.getReturningDate(), dayAfter, airports, flightDTO.getNumberOfSeats());
 			return airports;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
