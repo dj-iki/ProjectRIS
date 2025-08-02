@@ -26,6 +26,7 @@ import com.example.demo.repositories.TicketRepository;
 import com.example.demo.security.JWTService;
 
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import model.AppUser;
 import model.Booking;
 import model.Flight;
@@ -71,7 +72,8 @@ public class FlightBookingService {
 		List<Seat> seats = seatRepository.getAvailableSeats(flight.getPlane(), flight);
 		return seats;
 	}
-
+	
+	@Transactional
 	public String saveBooking(BookingDTO bookingDTO, String jwt) {
 		try {
 			String username = jwtService.extractUsername(jwt);

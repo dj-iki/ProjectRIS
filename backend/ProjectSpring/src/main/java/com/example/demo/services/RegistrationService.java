@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dtos.AppUserRegisterDTO;
@@ -21,6 +22,9 @@ public class RegistrationService {
 	
 	@Autowired
 	private AppUserRepository appUserRepository;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	public List<Role> getAllRoles() {
 		return roleRepository.findAll();
@@ -33,7 +37,6 @@ public class RegistrationService {
 	public String saveAppUser(AppUserRegisterDTO appUserDTO) {
 		try{
 			if(appUserRepository.findAppUserByUsername(appUserDTO.getUsername())==null) {
-				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 				AppUser appUser = new AppUser();
 				appUser.setUsername(appUserDTO.getUsername());
 				appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
