@@ -7,7 +7,7 @@ import com.example.demo.validators.DateFutureOrPresent;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
-public class FlightDTO {
+public class FlightSearchDTO {
 
 	@NotNull
 	private Integer fromAirport;

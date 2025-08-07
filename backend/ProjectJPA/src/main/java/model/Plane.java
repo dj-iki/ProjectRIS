@@ -38,7 +38,7 @@ public class Plane implements Serializable {
 	private Airline airline;
 
 	//bi-directional many-to-one association to Seat
-	@OneToMany(mappedBy="plane")
+	@OneToMany(mappedBy="plane", cascade=CascadeType.ALL)
 	private List<Seat> seats;
 
 	public Plane() {

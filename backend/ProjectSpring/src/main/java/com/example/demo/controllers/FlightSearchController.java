@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.dtos.BookingDTO;
-import com.example.demo.dtos.FlightDTO;
+import com.example.demo.dtos.FlightSearchDTO;
 import com.example.demo.services.FlightSearchService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,12 +44,12 @@ public class FlightSearchController {
 	}
 
 	@ModelAttribute("flightDTO")
-	public FlightDTO createFlightDTO() {
-		return new FlightDTO();
+	public FlightSearchDTO createFlightDTO() {
+		return new FlightSearchDTO();
 	}
 
 	@GetMapping("/findFlights")
-	public String findFlightsFrom(@Valid @ModelAttribute("flightDTO") FlightDTO flightDTO, BindingResult result,
+	public String findFlightsFrom(@Valid @ModelAttribute("flightDTO") FlightSearchDTO flightDTO, BindingResult result,
 			Model model, HttpServletRequest request) {
 		if (!result.hasErrors()) {
 			HttpSession session = request.getSession();
@@ -107,7 +107,7 @@ public class FlightSearchController {
 	public String findCities(@RequestParam("countryId") Integer countryId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("cities");
-		FlightDTO flightDTO = (FlightDTO) session.getAttribute("flight");
+		FlightSearchDTO flightDTO = (FlightSearchDTO) session.getAttribute("flight");
 		List<City> cities;
 		if (flightDTO.getReturningDate() == null) {
 			cities = flightSearchService.getToCities(countryId, flightDTO);
@@ -122,7 +122,7 @@ public class FlightSearchController {
 	@GetMapping("/airports")
 	public String findAirports(@RequestParam("cityId")Integer cityId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		FlightDTO flightDTO = (FlightDTO) session.getAttribute("flight");
+		FlightSearchDTO flightDTO = (FlightSearchDTO) session.getAttribute("flight");
 		session.removeAttribute("airports");
 		List<Airport> airports;
 		if(flightDTO.getReturningDate()==null) {
@@ -137,7 +137,7 @@ public class FlightSearchController {
 	@GetMapping("/flightsFromCountries")
 	public String findFlightsFromCountries(@RequestParam("airportId") Integer airportId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		FlightDTO flightDTO = (FlightDTO) session.getAttribute("flight");
+		FlightSearchDTO flightDTO = (FlightSearchDTO) session.getAttribute("flight");
 		flightDTO.setToAirport(airportId);
 		List<Flight> flights = flightSearchService.getAllFlightsFromTo(flightDTO);
 		session.setAttribute("flightsTo", flights);
