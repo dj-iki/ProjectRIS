@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dtos.FlightDTO;
+import com.example.demo.dtos.FlightSearchDTO;
 import com.example.demo.repositories.AirportRepository;
 import com.example.demo.repositories.CityRepository;
 import com.example.demo.repositories.CountryRepository;
@@ -37,7 +37,7 @@ public class FlightSearchService {
 		return airportRepository.findAll();
 	}
 
-	public List<Flight> getAllFlightsFromTo(FlightDTO flightDTO) {
+	public List<Flight> getAllFlightsFromTo(FlightSearchDTO flightDTO) {
 		try {
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
 			Airport to = airportRepository.findById(flightDTO.getToAirport()).get();
@@ -65,7 +65,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<Country> getToCountries(FlightDTO flightDTO) {
+	public List<Country> getToCountries(FlightSearchDTO flightDTO) {
 		try {
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
 			if (flightDTO.getDepartureDate().compareTo(new Date()) <= 0) {
@@ -92,7 +92,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<Flight> getReturningFlights(FlightDTO flightDTO) {
+	public List<Flight> getReturningFlights(FlightSearchDTO flightDTO) {
 		try {
 			Airport from = airportRepository.findById(flightDTO.getToAirport()).get();
 			Airport to = airportRepository.findById(flightDTO.getFromAirport()).get();
@@ -109,7 +109,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<Country> getReturningCountries(FlightDTO flightDTO) {
+	public List<Country> getReturningCountries(FlightSearchDTO flightDTO) {
 		try {
 			List<Country> countries = getToCountries(flightDTO);
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
@@ -126,7 +126,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<City> getToCities(Integer countryId, FlightDTO flightDTO) {
+	public List<City> getToCities(Integer countryId, FlightSearchDTO flightDTO) {
 		try {
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
 			if (flightDTO.getDepartureDate().compareTo(new Date()) <= 0) {
@@ -151,7 +151,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<City> getReturningCities(Integer countryId, FlightDTO flightDTO) {
+	public List<City> getReturningCities(Integer countryId, FlightSearchDTO flightDTO) {
 		try {
 			List<City> cities = getToCities(countryId, flightDTO);
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
@@ -167,7 +167,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<Airport> getToAirports(Integer cityId, FlightDTO flightDTO) {
+	public List<Airport> getToAirports(Integer cityId, FlightSearchDTO flightDTO) {
 		try {
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
 			if (flightDTO.getDepartureDate().compareTo(new Date()) <= 0) {
@@ -194,7 +194,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<Airport> getReturningAirports(Integer cityId, FlightDTO flightDTO) {
+	public List<Airport> getReturningAirports(Integer cityId, FlightSearchDTO flightDTO) {
 		try {
 			List<Airport> airports = getToAirports(cityId, flightDTO);
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
@@ -210,7 +210,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<Flight> getToFlights(Integer airportId, FlightDTO flightDTO) {
+	public List<Flight> getToFlights(Integer airportId, FlightSearchDTO flightDTO) {
 		try {
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
 			if (flightDTO.getDepartureDate().compareTo(new Date()) <= 0) {
@@ -235,7 +235,7 @@ public class FlightSearchService {
 		}
 	}
 
-	public List<Flight> getReturningFlights(Integer airportID, FlightDTO flightDTO) {
+	public List<Flight> getReturningFlights(Integer airportID, FlightSearchDTO flightDTO) {
 		try {
 			List<Flight> flights = getToFlights(airportID, flightDTO);
 			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();

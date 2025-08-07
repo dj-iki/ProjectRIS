@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.dtos.BookingDTO;
-import com.example.demo.dtos.FlightDTO;
+import com.example.demo.dtos.FlightSearchDTO;
 import com.example.demo.dtos.TicketDTO;
 import com.example.demo.services.FlightBookingService;
 
@@ -72,7 +72,7 @@ public class FlightBookingController {
 			
 			return "bookingTickets";
 		}
-		model.addAttribute("flightDTO", new FlightDTO());
+		model.addAttribute("flightDTO", new FlightSearchDTO());
 		model.addAttribute("successfull_booking", bookingResult);
 		return "index";
 	}

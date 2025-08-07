@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import model.Airport;
 import model.Flight;
+import model.Plane;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
@@ -43,4 +44,8 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
 			+ "f.departureTime<:departureToTime and "
 			+ "f in (:flights)")
 	List<Flight> getReturningFlights(@Param("returningAirport")Airport returningAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime, @Param("flights") List<Flight> flights);
+	
+	
+	@Query("select f from Flight f where f.plane=:plane and f.departureTime<=:arrivalTime and f.arrivalTime>=:departureTime")
+	List<Flight> findAllCollisions(@Param("plane") Plane plane, @Param("departureTime") Date departureTime, @Param("arrivalTime") Date arrivalTime);
 }
