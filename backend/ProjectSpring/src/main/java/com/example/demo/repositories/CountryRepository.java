@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import jakarta.transaction.Transactional;
 import model.Airport;
 import model.Country;
 
@@ -46,4 +48,8 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
 	List<Country> getReturningCountries(@Param("returningAirpot") Airport returningAirport,
 			@Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime,
 			@Param("countries") List<Country> countries, @Param("numberOfSeats") Integer numberOfSeats);
+
+	@Query("select c from Country c where c.name=:name")
+	Country findByName(@Param("name") String name);
+	
 }
