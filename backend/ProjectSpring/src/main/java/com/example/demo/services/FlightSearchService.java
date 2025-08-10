@@ -48,7 +48,7 @@ public class FlightSearchService {
 				Date dayAfter = calendar.getTime();
 				flightDTO.setDepartureDate(new Date());
 				List<Flight> flights = flightRepository.getAllFlightsFromTo(from, to, flightDTO.getDepartureDate(),
-						dayAfter);
+						dayAfter, flightDTO.getNumberOfSeats());
 				return flights;
 			} else {
 				Calendar calendar = Calendar.getInstance();
@@ -56,7 +56,7 @@ public class FlightSearchService {
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 				Date dayAfter = calendar.getTime();
 				List<Flight> flights = flightRepository.getAllFlightsFromTo(from, to, flightDTO.getDepartureDate(),
-						dayAfter);
+						dayAfter, flightDTO.getNumberOfSeats());
 				return flights;
 			}
 		} catch (Exception e) {
@@ -101,7 +101,7 @@ public class FlightSearchService {
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 			Date dayAfter = calendar.getTime();
 			List<Flight> flights = flightRepository.getAllFlightsFromTo(from, to, flightDTO.getReturningDate(),
-					dayAfter);
+					dayAfter, flightDTO.getNumberOfSeats());
 			return flights;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -219,32 +219,16 @@ public class FlightSearchService {
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 				Date dayAfter = calendar.getTime();
 				flightDTO.setDepartureDate(new Date());
-				List<Flight> flights = flightRepository.getToFlights(from, flightDTO.getDepartureDate(), dayAfter);
+				List<Flight> flights = flightRepository.getToFlights(from, flightDTO.getDepartureDate(), dayAfter, flightDTO.getNumberOfSeats());
 				return flights;
 			} else {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(flightDTO.getDepartureDate());
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 				Date dayAfter = calendar.getTime();
-				List<Flight> flights = flightRepository.getToFlights(from, flightDTO.getDepartureDate(), dayAfter);
+				List<Flight> flights = flightRepository.getToFlights(from, flightDTO.getDepartureDate(), dayAfter, flightDTO.getNumberOfSeats());
 				return flights;
 			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
-
-	public List<Flight> getReturningFlights(Integer airportID, FlightSearchDTO flightDTO) {
-		try {
-			List<Flight> flights = getToFlights(airportID, flightDTO);
-			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(flightDTO.getReturningDate());
-			calendar.add(Calendar.DAY_OF_YEAR, 1);
-			Date dayAfter = calendar.getTime();
-			flights = flightRepository.getReturningFlights(from, flightDTO.getReturningDate(), dayAfter, flights);
-			return flights;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;

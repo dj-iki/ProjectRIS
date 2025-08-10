@@ -4,19 +4,18 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the app_user database table.
  * 
  */
 @Entity
-@Table(name="app_user")
-@NamedQuery(name="AppUser.findAll", query="SELECT a FROM AppUser a")
+@Table(name = "app_user")
+@NamedQuery(name = "AppUser.findAll", query = "SELECT a FROM AppUser a")
 public class AppUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUsers;
 
 	private String email;
@@ -29,21 +28,23 @@ public class AppUser implements Serializable {
 
 	private String username;
 
-	//bi-directional many-to-one association to Airline
+	private boolean deleted;
+
+	// bi-directional many-to-one association to Airline
 	@ManyToOne
-	@JoinColumn(name="Airlines_idAirlines")
+	@JoinColumn(name = "Airlines_idAirlines")
 	private Airline airline;
 
-	//bi-directional many-to-one association to Role
+	// bi-directional many-to-one association to Role
 	@ManyToOne
 	private Role role;
 
-	//bi-directional many-to-one association to Booking
-	@OneToMany(mappedBy="appUser")
+	// bi-directional many-to-one association to Booking
+	@OneToMany(mappedBy = "appUser")
 	private List<Booking> bookings;
 
-	//bi-directional many-to-many association to Flight
-	@ManyToMany(mappedBy="appUsers")
+	// bi-directional many-to-many association to Flight
+	@ManyToMany(mappedBy = "appUsers")
 	private List<Flight> flights;
 
 	public AppUser() {
@@ -95,6 +96,14 @@ public class AppUser implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public Airline getAirline() {

@@ -20,30 +20,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.dtos.FlightDelayDTO;
 import com.example.demo.dtos.FlightInsertionDTO;
 import com.example.demo.dtos.PlaneDTO;
-import com.example.demo.services.FlightInsertionService;
+import com.example.demo.services.ManagerService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import model.Airport;
 import model.AppUser;
+import model.Flight;
 import model.Plane;
 
 @Controller
 @RequestMapping("/manager")
-public class FlightInsertionController {
+public class ManagerController {
 
 	@Autowired
-	FlightInsertionService flightInsertionService;
+	ManagerService managerService;
 	
 
 	@GetMapping("/redirect-addFlight")
 	public ModelAndView redirectAddFlight(@CookieValue("jwt") String jwt) {
-		List<Airport> airports = flightInsertionService.getAllAirports();
-		List<Plane> planes = flightInsertionService.getAllPlanes(jwt);
-		List<AppUser> employees = flightInsertionService.getAllEmployees(jwt);
+		List<Airport> airports = managerService.getAllAirports();
+		List<Plane> planes = managerService.getAllPlanes(jwt);
+		List<AppUser> employees = managerService.getAllEmployees(jwt);
 		ModelAndView modelAndView = new ModelAndView("addingFlights");
 		modelAndView.addObject("airports", airports);
 		modelAndView.addObject("planes", planes);
@@ -68,13 +70,13 @@ public class FlightInsertionController {
 				&& flightInsertionDTO.getArrival().before(flightInsertionDTO.departure))
 			result.addError(
 					new FieldError("flightInsertionDTO", "arrival", "Arrival time cannot be before departure time"));
-		if (!flightInsertionService.isPlaneAvailable(flightInsertionDTO))
+		if (!managerService.isPlaneAvailable(flightInsertionDTO))
 			result.addError(new FieldError("flightInsertionDTO", "plane", "Plane is not available at that time"));
 		if (flightInsertionDTO.getFromAirport() == flightInsertionDTO.getToAirport())
 			result.addError(new FieldError("flightInsertionDTO", "toAirport",
 					"You cannot select 'from' and 'to' airports to be the same"));
 		if (!result.hasErrors()) {
-			String insertionResult = flightInsertionService.insertFlight(flightInsertionDTO);
+			String insertionResult = managerService.insertFlight(flightInsertionDTO);
 			System.out.println(insertionResult);
 			if (insertionResult.startsWith("Successfull"))
 				session.setAttribute("successful_insertion", insertionResult);
@@ -119,7 +121,7 @@ public class FlightInsertionController {
 			result.addError(new FieldError("planeDTO", "numberOfEconomySeats",
 					"Number of economy seats must be devisialbe with number of economy rows"));
 		if (!result.hasErrors()) {
-			String insertionResult = flightInsertionService.insertPlane(planeDTO, jwt);
+			String insertionResult = managerService.insertPlane(planeDTO, jwt);
 			if (insertionResult.startsWith("Successfull")) {
 				session.setAttribute("successful_insertion", insertionResult);
 			} else {
@@ -139,11 +141,51 @@ public class FlightInsertionController {
 	
 	@PostMapping("/hire-user")
 	public String hireUser(@RequestParam("username") String username, @CookieValue("jwt") String jwt, Model model) {
-		String result = flightInsertionService.hireUser(username, jwt);
+		String result = managerService.hireUser(username, jwt);
 		model.addAttribute("result", result);
 		return "hireUser";
 	}
+	
+	@ModelAttribute("flightDelayDTO")
+	public FlightDelayDTO createFlightDelayDTO() {
+		return new FlightDelayDTO();
+	}
+	
+	@GetMapping("/redirect-delay")
+	public ModelAndView redirectDelay(@CookieValue("jwt") String jwt) {
+		ModelAndView modelAndView = new ModelAndView("delayFlight");
+		List<Flight> flights = managerService.getFlights(jwt);
+		modelAndView.addObject("flights", flights);
+		return modelAndView;
+	}
 
+	@PostMapping("/delay-flight")
+	public String delayFlight(@ModelAttribute("flightDelayDTO") FlightDelayDTO flightDelayDTO, HttpServletRequest request, Model model) {
+		String result = managerService.delayFlight(flightDelayDTO.getFlightId(), flightDelayDTO.getDeparture(), flightDelayDTO.getArrival());
+		HttpSession session = request.getSession();
+		session.removeAttribute("successfull_delay");
+		session.removeAttribute("unsuccessfull_delay");
+		if(result.startsWith("Success")) {
+			session.setAttribute("successfull_delay", result);
+			return "redirect:/manager/redirect-delay";
+		}else {
+			session.setAttribute("unsuccessfull_delay", result);
+			return "redirect:/manager/redirect-delay";
+		}
+	}
+	
+	@PostMapping("/cancel-flight")
+	public String cancelFlight(@RequestParam("flightId") Integer flightId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String result = managerService.cancelFlight(flightId);
+		if(result.startsWith("Success")) {
+			session.setAttribute("successfull_cancel", result);
+			return "redirect:/manager/redirect-delay";
+		}
+		session.setAttribute("unsuccessfull_cancel", result);
+		return "redirect:/manager/redirect-delay";
+	}
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");

@@ -89,4 +89,14 @@ public class UpdateAccountService {
 		}else
 			return "Error - wrong password";
 	}
+
+	public String deleteAccount(String username, String password) {
+		AppUser appUser = appUserRepository.findAppUserByUsername(username);
+		
+		if(appUserRepository.deleteUser(appUser) == 0) {
+			return "Error - account was not deleted"; 
+		}
+		
+		return "Account was deleted successfully";
+	}
 }

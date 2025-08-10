@@ -9,8 +9,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:if test="${successful_registration }">
+	<c:if test="${!empty successful_registration }">
 		<p>${successful_registration }</p>
+	</c:if>
+	<c:if test="${!empty successfull_update }">
+		<p>${successfull_update }</p>
 	</c:if>
 	<form action="/ProjectRIS/auth/login" method="post">
 		<input type="text" name="username">
