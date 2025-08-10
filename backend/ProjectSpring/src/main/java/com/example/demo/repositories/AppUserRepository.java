@@ -1,5 +1,6 @@
 package com.example.demo.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,12 +12,13 @@ import org.springframework.stereotype.Repository;
 import jakarta.transaction.Transactional;
 import model.Airline;
 import model.AppUser;
+import model.Flight;
 import model.Role;
 
 @Repository
 public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 
-	@Query("select au from AppUser au where au.username=:username")
+	@Query("select au from AppUser au where au.username=:username and au.deleted=false")
 	public AppUser findAppUserByUsername(@Param("username") String username);
 
 	@Transactional
@@ -45,12 +47,26 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 	@Query("update AppUser au set au.password=:password where au.username=:username")
 	public int updateAppUserPassword(@Param("password") String password, @Param("username") String username);
 
-	@Query("select au from AppUser au where au.airline=:airline and au.role.name='EMPLOYEE'")
+	@Query("select au from AppUser au where au.airline=:airline and au.role.name='EMPLOYEE' and au.deleted=false")
 	public List<AppUser> findAllEmployees(@Param("airline") Airline airline);
 
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.role=:role, au.airline=:airline where au=:appUser")
+	@Query("update AppUser au set au.role=:role, au.airline=:airline where au=:appUser and au.deleted=false")
 	public int hireAppUser(@Param("appUser") AppUser appUser, @Param("role") Role role,
 			@Param("airline") Airline airline);
+	
+	@Transactional
+	@Modifying
+	@Query("update AppUser au set au.deleted=true where au=:appUser")
+	public int deleteUser(@Param("appUser") AppUser appUser);
+	
+	@Query("select au from AppUser au where au.email=:email and au.deleted=false")
+	public AppUser findAppUserByEmail(@Param("email") String email);
+	
+	@Query("select au from AppUser au inner join au.bookings b where b.flight=:flight")
+	public List<AppUser> getRecipients(@Param("flight") Flight flight);
+	
+	@Query("select distinct au.email from AppUser au inner join au.bookings b where au.deleted=false and b.flight=:flight")
+	public List<String> getEmailsForNotification(@Param("flight") Flight flight);
 }

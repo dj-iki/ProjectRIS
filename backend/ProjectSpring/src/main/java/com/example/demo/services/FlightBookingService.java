@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dtos.BookingDTO;
@@ -164,10 +165,8 @@ public class FlightBookingService {
 					} else
 						return "Error with booking - Each passenger must have a unique seat. You cannot select the same seat more than once.";
 				}
-				if(sendTicketsViaEmail(reportData, params))
-					return "You booked your tickets successfully";
-				else
-					return "Error with booking - there was an error with sending email";
+				sendTicketsViaEmail(reportData, params);
+				return "You booked your tickets successfully";
 			}
 			return "Error with booking - Each passenger must have a unique seat. You cannot select the same seat more than once.";
 		} catch (Exception e) {
@@ -194,24 +193,33 @@ public class FlightBookingService {
 		return JasperExportManager.exportReportToPdf(print);
 	}
 	
-	private boolean sendTicketsViaEmail(List<ReportDataDTO> reportData, Map<String, Object> params) {
-		try {
-			MimeMessage message = javaMailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-			
-			
-			byte[] pdfBytes = generateReport(reportData, params);
-			
-			helper.setTo(params.get("email").toString());
-			helper.setSubject("Flight tickets");
-			helper.setText("");
-			helper.addAttachment("ticketsForFlight.pdf", new ByteArrayResource(pdfBytes));
-			
-			javaMailSender.send(message);
-			return true;
-		}catch(Exception e) {
-			e.printStackTrace();
+	@Async
+	private void sendTicketsViaEmail(List<ReportDataDTO> reportData, Map<String, Object> params) {
+		boolean sent = false;
+		while(!sent) {
+			try {
+				MimeMessage message = javaMailSender.createMimeMessage();
+				MimeMessageHelper helper = new MimeMessageHelper(message, true);
+				
+				
+				byte[] pdfBytes = generateReport(reportData, params);
+				
+				helper.setTo(params.get("email").toString());
+				helper.setSubject("Flight tickets");
+				helper.setText("");
+				helper.addAttachment("ticketsForFlight.pdf", new ByteArrayResource(pdfBytes));
+				
+				javaMailSender.send(message);
+				sent = true;
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+				try {
+					Thread.sleep(2000); // 2 sec sleep
+				} catch (InterruptedException ie) {
+	                Thread.currentThread().interrupt(); // clear the interrupt flag
+	                throw new RuntimeException("Retry interrupted", ie);
+	            }
+			}
 		}
-		return false;
 	}
 }

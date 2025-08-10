@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/* Error message */
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Container for tickets side by side */
+.ticket-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Card styling */
+.ticket-card {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+    min-width: 250px;
+}
+
+.ticket-card:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+/* Legend */
+.ticket-card legend {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+/* Inputs & selects */
+.ticket-card input[type="text"],
+.ticket-card select {
+    width: 99%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Radio buttons for baggage */
+.baggage-options {
+    margin-top: 8px;
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+/* Submit button */
+.btn-submit {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 2px;
+    margin-bottom: 10px;
+    display: block;
+}

@@ -16,6 +16,7 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
 
 	@Query("select s from Seat s where s.plane=:plane and s not in (select t.seat from Ticket t where t.booking.flight=:flight)")
 	List<Seat> getAvailableSeats(@Param("plane") Plane plane, @Param("flight") Flight flight);
+
 	@Query("select s.price from Seat s where s.idSeat=:seatId")
 	float getPrice(@Param("seatId") Integer seatId);
 

@@ -27,6 +27,8 @@ public class Flight implements Serializable {
 
 	@Column(name="flight_number")
 	private String flightNumber;
+	
+	private boolean canceled;
 
 	//bi-directional many-to-one association to Booking
 	@OneToMany(mappedBy="flight")
@@ -92,6 +94,14 @@ public class Flight implements Serializable {
 
 	public void setFlightNumber(String flightNumber) {
 		this.flightNumber = flightNumber;
+	}
+
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
 	}
 
 	public List<Booking> getBookings() {

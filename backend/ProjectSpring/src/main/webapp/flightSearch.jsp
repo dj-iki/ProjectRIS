@@ -6,55 +6,106 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Flight Search</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/style/flights.css">
 </head>
 <body>
 	<c:choose>
 		<c:when test="${!empty returning }">
-			<form:form action="/ProjectRIS/booking/new" method="get" modelAttribute="bookingDTO">
-				<div style="display: flex">
-					<div style="padding: 10px">
-						<c:forEach items="${flightsTo }" var="flightTo">
-							<p>${flightTo.flightNumber }${flightTo.plane.airline.name }</p>
-							<br>
-							<p>${flightTo.airport1.name }(${flightTo.airport1.iataCode })
-								----> ${flightTo.airport2.name } (${flightTo.airport2.iataCode })</p>
-							<br>
-							<p>${flightTo.departureTime }---->${flightTo.arrivalTime }</p>
-							<form:radiobutton path="flightIdFrom" value="${flightTo.idFlight }"/>
+			<form:form action="/ProjectRIS/booking/new" method="get"
+				modelAttribute="bookingDTO">
+				<div class="flight-container">
+					<div class="flight-column">
+						<c:forEach items="${flightsTo}" var="flightTo">
+							<label class="flight-card"> <form:radiobutton
+									path="flightIdFrom" value="${flightTo.idFlight}"
+									cssClass="flight-radio" />
+								<div class="flight-info">
+									<p class="flight-number">${flightTo.flightNumber}-
+										${flightTo.plane.airline.name}</p>
+									<p class="flight-route">
+										${flightTo.airport1.name} (${flightTo.airport1.iataCode}) <span
+											class="arrow">→</span> ${flightTo.airport2.name}
+										(${flightTo.airport2.iataCode})
+									</p>
+									<p class="flight-time">
+										${flightTo.departureTime} <span class="arrow">→</span>
+										${flightTo.arrivalTime}
+									</p>
+								</div>
+							</label>
 						</c:forEach>
+
 					</div>
-					<div style="padding: 10px">
-						<c:forEach items="${returning }" var="flight">
-							<p>${flight.flightNumber }${flight.plane.airline.name }</p>
-							<br>
-							<p>${flight.airport1.name }(${flight.airport1.iataCode })
-								----> ${flight.airport2.name } (${flight.airport2.iataCode })</p>
-							<br>
-							<p>${flight.departureTime }---->${flight.arrivalTime }</p>
-							<form:radiobutton path="flightIdReturning" value="${flight.idFlight }"/>
+					<div class="flight-column">
+						<c:forEach items="${returning}" var="flightFrom">
+							<label class="flight-card"> <form:radiobutton
+									path="flightIdReturning" value="${flightFrom.idFlight}"
+									cssClass="flight-radio" />
+								<div class="flight-info">
+									<p class="flight-number">${flightFrom.flightNumber}-
+										${flightFrom.plane.airline.name}</p>
+									<p class="flight-route">
+										${flightFrom.airport1.name} (${flightFrom.airport1.iataCode})
+										<span class="arrow">→</span> ${flightFrom.airport2.name}
+										(${flightFrom.airport2.iataCode})
+									</p>
+									<p class="flight-time">
+										${flightFrom.departureTime} <span class="arrow">→</span>
+										${flightFrom.arrivalTime}
+									</p>
+								</div>
+							</label>
 						</c:forEach>
 					</div>
 				</div>
-				<form:input type="hidden" value="${flights }" path="numberOfSeats"/> 
+				<form:input type="hidden" value="${numberOfSeats }"
+					path="numberOfSeats" />
 				<input type="submit" value="Book">
 			</form:form>
 		</c:when>
 		<c:otherwise>
-			<form:form action="/ProjectRIS/booking/new" method="get" modelAttribute="bookingDTO">
-				<c:forEach items="${flightsTo }" var="flight">
-					<p>${flight.flightNumber }${flight.plane.airline.name }</p>
-					<br>
-					<p>${flight.airport1.name }(${flight.airport1.iataCode })---->
-						${flight.airport2.name } (${flight.airport2.iataCode })</p>
-					<br>
-					<p>${flight.departureTime }---->${flight.arrivalTime }</p>
-					<form:radiobutton path="flightIdFrom" value="${flight.idFlight }"/>
-				</c:forEach>
-				<form:input type="hidden" value="${numberOfSeats }" path="numberOfSeats"/>
+
+			<form:form action="/ProjectRIS/booking/new" method="get"
+				modelAttribute="bookingDTO">
+				<div class="flight-column">
+					<c:forEach items="${flightsTo}" var="flightTo">
+						<label class="flight-card"> <form:radiobutton
+								path="flightIdFrom" value="${flightTo.idFlight}"
+								cssClass="flight-radio" />
+							<div class="flight-info">
+								<p class="flight-number">${flightTo.flightNumber}-
+									${flightTo.plane.airline.name}</p>
+								<p class="flight-route">
+									${flightTo.airport1.name} (${flightTo.airport1.iataCode}) <span
+										class="arrow">→</span> ${flightTo.airport2.name}
+									(${flightTo.airport2.iataCode})
+								</p>
+								<p class="flight-time">
+									${flightTo.departureTime} <span class="arrow">→</span>
+									${flightTo.arrivalTime}
+								</p>
+							</div>
+						</label>
+					</c:forEach>
+
+				</div>
+				<form:input type="hidden" value="${numberOfSeats }"
+					path="numberOfSeats" />
 				<input type="submit" value="Book">
 			</form:form>
 		</c:otherwise>
 	</c:choose>
+	<c:if test="${!empty validation_error }">
+		<div class="error-box">
+			<h4>${validation_error}</h4>
+			<hr class="error-separator">
+			<c:forEach items="${errors}" var="error">
+				<p>• ${error.defaultMessage}</p>
+			</c:forEach>
+		</div>
+	</c:if>
+
 </body>
 </html>

@@ -37,6 +37,7 @@ public class RegistrationService {
 	public String saveAppUser(AppUserRegisterDTO appUserDTO) {
 		try{
 			if(appUserRepository.findAppUserByUsername(appUserDTO.getUsername())==null) {
+				if(appUserRepository.findAppUserByEmail(appUserDTO.getEmail()) == null) {
 				AppUser appUser = new AppUser();
 				appUser.setUsername(appUserDTO.getUsername());
 				appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
@@ -47,6 +48,8 @@ public class RegistrationService {
 				
 				appUser = appUserRepository.save(appUser);
 				return "Successful registration";
+				}else
+					return "Error with registration - Email \"" + appUserDTO.getEmail() + "\" is already in use. Please enter another.";
 			}else {
 				return "Error with registration - Username \"" + appUserDTO.getUsername() + "\" is already in use. Please enter another.";
 			}

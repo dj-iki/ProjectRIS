@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +21,9 @@ import com.example.demo.security.JWTService;
 import com.example.demo.services.RegistrationService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import model.Role;
 
@@ -43,7 +44,9 @@ public class LoginAndRegistration {
 	private RegistrationService registrationService;
 	
 	@GetMapping("/redirect-login")
-	public String showLoginForm() {
+	public String showLoginForm(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("successfull_update");
 		return "login";
 	}
 	

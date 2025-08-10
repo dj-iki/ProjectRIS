@@ -2,8 +2,10 @@ package com.example.demo.dtos;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class BookingDTO {
 	
@@ -16,8 +18,10 @@ public class BookingDTO {
 	@Min(value=1)
 	private Integer numberOfSeats;
 	
+	@Valid
 	private List<TicketDTO> ticketsFromDTO;
 	
+	@Valid
 	private List<TicketDTO> ticketsReturningDTO;
 
 	public Integer getFlightIdFrom() {

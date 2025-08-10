@@ -53,6 +53,15 @@
 			div.style.display = 'none';
 		}
 	}
+	function displayDelete(){
+		const div = document.getElementById('delete');
+		if (div.style.display === 'none' || div.style.display === ''){
+			div.style.display = 'block';
+		}
+		else{
+			div.style.display = 'none';
+		}
+	}
 </script>
 </head>
 <body>
@@ -103,6 +112,14 @@
 			<form:input type="password" path="oldPassword"/><br>
 			<form:input type="password" path="newPassword" />
 			<input type="submit" value="Update">
+		</form:form>
+	</div>
+	<button type="button" onclick="displayDelete()">Delete account</button><br>
+	<div id="delete" style="display: none">
+		<form:form method="post" action="/ProjectRIS/account/delete" modelAttribute="appUserDTO">
+			<input type="hidden"  name="oldUsername" value="${appUserDTO.oldUsername }"/>
+			<form:input type="password" path="oldPassword"/>
+			<input type="submit" value="Delete">
 		</form:form>
 	</div>
 

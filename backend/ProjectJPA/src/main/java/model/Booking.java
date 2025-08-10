@@ -14,36 +14,35 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 
-
 /**
  * The persistent class for the booking database table.
  * 
  */
 @Entity
-@NamedQuery(name="Booking.findAll", query="SELECT b FROM Booking b")
+@NamedQuery(name = "Booking.findAll", query = "SELECT b FROM Booking b")
 public class Booking implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idBooking;
 
-	@Column(name="number_of_seats")
+	@Column(name = "number_of_seats")
 	private int numberOfSeats;
 
 	private float price;
 
-	//bi-directional many-to-one association to AppUser
+	// bi-directional many-to-one association to AppUser
 	@ManyToOne
-	@JoinColumn(name="Users_idUsers")
+	@JoinColumn(name = "Users_idUsers")
 	private AppUser appUser;
 
-	//bi-directional many-to-one association to Flight
+	// bi-directional many-to-one association to Flight
 	@ManyToOne
 	private Flight flight;
 
-	//bi-directional many-to-one association to Ticket
-	@OneToMany(mappedBy="booking", cascade=CascadeType.ALL)
+	// bi-directional many-to-one association to Ticket
+	@OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
 	private List<Ticket> tickets;
 
 	public Booking() {
