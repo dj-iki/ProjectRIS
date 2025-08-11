@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dtos.BookingDTO;
 import com.example.demo.dtos.FlightSearchDTO;
@@ -36,11 +37,23 @@ public class FlightSearchController {
 	FlightSearchService flightSearchService;
 
 	@GetMapping("/redirect")
-	public String redirect(HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public ModelAndView redirect(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("index");
 		List<Airport> airports = flightSearchService.getAllAirports();
-		session.setAttribute("airports", airports);
-		return "index";
+		modelAndView.addObject("airports", airports);
+		HttpSession session = request.getSession();
+		session.removeAttribute("returning");
+		session.removeAttribute("flightsTo");
+		session.removeAttribute("countries");
+		session.removeAttribute("flight");
+		session.removeAttribute("numberOfSeats");
+		session.removeAttribute("no_one_way_flights");
+		session.removeAttribute("no_returning_flights");
+		session.removeAttribute("no_one_way_countries");
+		session.removeAttribute("no_returning_countries");
+		session.removeAttribute("validation_error_search");
+		session.removeAttribute("errors_search");
+		return modelAndView;
 	}
 
 	@ModelAttribute("flightDTO")
@@ -51,44 +64,53 @@ public class FlightSearchController {
 	@GetMapping("/findFlights")
 	public String findFlightsFrom(@Valid @ModelAttribute("flightDTO") FlightSearchDTO flightDTO, BindingResult result,
 			Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("returning");
+		session.removeAttribute("flightsTo");
+		session.removeAttribute("countries");
+		session.removeAttribute("flight");
+		session.removeAttribute("numberOfSeats");
+		session.removeAttribute("no_one_way_flights");
+		session.removeAttribute("no_returning_flights");
+		session.removeAttribute("no_one_way_countries");
+		session.removeAttribute("no_returning_countries");
+		session.removeAttribute("validation_error_search");
+		session.removeAttribute("errors_search");
 		if (!result.hasErrors()) {
-			HttpSession session = request.getSession();
 			List<Flight> flights = null;
 			List<Country> countries = null;
-			session.removeAttribute("returning");
-			session.removeAttribute("flightsTo");
-			session.removeAttribute("countries");
-			session.removeAttribute("flight");
-			session.removeAttribute("numberOfSeats");
+			
 			if (flightDTO.getToAirport() != null) {
 				flights = flightSearchService.getAllFlightsFromTo(flightDTO);
 				if(flights == null || flights.isEmpty()) {
-					model.addAttribute("no_one_way_flights", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " to " + flightSearchService.getAirportById(flightDTO.getToAirport()) + " for departure date " + flightDTO.getDepartureDate());
-					return "index";
+					session.setAttribute("no_one_way_flights", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " to " + flightSearchService.getAirportById(flightDTO.getToAirport()) + " for departure date " + flightDTO.getDepartureDate());
+					return "redirect:/search/redirect-inside";
 				}
 				session.setAttribute("flightsTo", flights);
 				session.setAttribute("numberOfSeats", flightDTO.getNumberOfSeats());
 				if (flightDTO.getReturningDate() != null) {
 					List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
 					if(returning == null || returning.isEmpty()) {
-						model.addAttribute("no_returning_flights", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " to " + flightSearchService.getAirportById(flightDTO.getToAirport()) + " for departure date " + flightDTO.getDepartureDate() + " and returning date " + flightDTO.getReturningDate());
-						return "index";
+						session.setAttribute("no_returning_flights", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " to " + flightSearchService.getAirportById(flightDTO.getToAirport()) + " for departure date " + flightDTO.getDepartureDate() + " and returning date " + flightDTO.getReturningDate());
+						return "redirect:/search/redirect-inside";
 					}
 					session.setAttribute("returning", returning);
 				}
+				session.removeAttribute("validation_error");
+				session.removeAttribute("errors");
 				return "flightSearch";
 			} else {
 				if (flightDTO.getReturningDate() != null) {
 					countries = flightSearchService.getReturningCountries(flightDTO);
 					if(countries == null || countries.isEmpty()) {
-						model.addAttribute("no_one_way_countries", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " for departure date " + flightDTO.getDepartureDate());
-						return "index";
+						session.setAttribute("no_one_way_countries", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " for departure date " + flightDTO.getDepartureDate());
+						return "redirect:/search/redirect-inside";
 					}
 				} else {
 					countries = flightSearchService.getToCountries(flightDTO);
 					if(countries == null || countries.isEmpty()) {
-						model.addAttribute("no_returning_countries", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " for departure date " + flightDTO.getDepartureDate() + " and returning date " + flightDTO.getReturningDate());
-						return "index";
+						session.setAttribute("no_returning_countries", "There are no flights from " + flightSearchService.getAirportById(flightDTO.getFromAirport()) + " for departure date " + flightDTO.getDepartureDate() + " and returning date " + flightDTO.getReturningDate());
+						return "redirect:/search/redirect-inside";
 					}
 				}
 				
@@ -97,9 +119,9 @@ public class FlightSearchController {
 				return "countrySearch";
 			}
 		}
-		model.addAttribute("validation_error", "There was an error with validating");
-		model.addAttribute("errors", result.getAllErrors());
-		return "index";
+		session.setAttribute("validation_error", "There was an error with validating");
+		session.setAttribute("errors", result.getAllErrors());
+		return "redirect:/search/redirect-inside";
 
 	}
 
@@ -146,12 +168,24 @@ public class FlightSearchController {
 			List<Flight> returning = flightSearchService.getReturningFlights(flightDTO);
 			session.setAttribute("returning", returning);
 		}
+		session.removeAttribute("validation_error");
+		session.removeAttribute("errors");
 		return "flightSearch";
 	}
 	
 	@ModelAttribute("bookingDTO")
 	public BookingDTO createBookingDTO() {
 		return new BookingDTO();
+	}
+	
+	@GetMapping("/redirect-inside")
+	public ModelAndView redirectInside(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("index");
+		List<Airport> airports = flightSearchService.getAllAirports();
+		modelAndView.addObject("airports", airports);
+		HttpSession session = request.getSession();
+		session.removeAttribute("successfull_booking");
+		return modelAndView;
 	}
 
 	@InitBinder

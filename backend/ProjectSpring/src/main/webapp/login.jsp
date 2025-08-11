@@ -9,6 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:if test="${!empty jwtExpired }">
+		${jwtExpired }
+	</c:if>
 	<c:if test="${!empty successful_registration }">
 		<p>${successful_registration }</p>
 	</c:if>

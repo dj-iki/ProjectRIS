@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dtos.AppUserLoginDTO;
 import com.example.demo.dtos.AppUserRegisterDTO;
@@ -127,5 +128,12 @@ public class LoginAndRegistration {
 		model.addAttribute("validation_error", "There was an error with validating");
 		model.addAttribute("errors", result.getAllErrors());
 		return "registration";
+	}
+	
+	@GetMapping("/redirect-expired")
+	public ModelAndView redirectExpired() {
+		ModelAndView modelAndView = new ModelAndView("login");
+		modelAndView.addObject("jwtExpired", "Your session has expired pls log back in");
+		return modelAndView;
 	}
 }

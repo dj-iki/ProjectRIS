@@ -5,22 +5,25 @@ import java.util.Date;
 import com.example.demo.validators.DateFutureOrPresent;
 
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public class FlightSearchDTO {
 
-	@NotNull
+	@NotNull(message="Departure Airport cannot be null")
 	private Integer fromAirport;
 	
 	private Integer toAirport;
 	
+	@NotNull(message="Number of seats cannot be null")
+	@Min(value=1)
 	private Integer numberOfSeats;
 
-	@NotNull
+	@NotNull(message="Departure date cannot be null")
 	@DateFutureOrPresent
 	private Date departureDate;
 	
-	@Future
+	@Future(message="Returning date must be in future")
 	private Date returningDate;
 
 	public Integer getFromAirport() {

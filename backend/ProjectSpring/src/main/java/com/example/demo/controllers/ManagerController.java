@@ -42,7 +42,7 @@ public class ManagerController {
 	
 
 	@GetMapping("/redirect-addFlight")
-	public ModelAndView redirectAddFlight(@CookieValue("jwt") String jwt) {
+	public ModelAndView redirectAddFlight(@CookieValue("jwt") String jwt, HttpServletRequest request) {
 		List<Airport> airports = managerService.getAllAirports();
 		List<Plane> planes = managerService.getAllPlanes(jwt);
 		List<AppUser> employees = managerService.getAllEmployees(jwt);
@@ -50,6 +50,11 @@ public class ManagerController {
 		modelAndView.addObject("airports", airports);
 		modelAndView.addObject("planes", planes);
 		modelAndView.addObject("employees", employees);
+		HttpSession session = request.getSession();
+		session.removeAttribute("successful_insertion");
+		session.removeAttribute("unsuccessful_insertion");
+		session.removeAttribute("validation_error");
+		session.removeAttribute("errors");
 		return modelAndView;
 	}
 
@@ -64,8 +69,8 @@ public class ManagerController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("successful_insertion");
 		session.removeAttribute("unsuccessful_insertion");
-		session.removeAttribute("validation_error");
-		session.removeAttribute("errors");
+		session.removeAttribute("validation_error_flight");
+		session.removeAttribute("errors_flight");
 		if (flightInsertionDTO.getArrival() != null && flightInsertionDTO.getDeparture() != null
 				&& flightInsertionDTO.getArrival().before(flightInsertionDTO.departure))
 			result.addError(
@@ -82,16 +87,21 @@ public class ManagerController {
 				session.setAttribute("successful_insertion", insertionResult);
 			else
 				session.setAttribute("unsuccessful_insertion", insertionResult);
-			return "redirect:/manager/redirect";
+			return "redirect:/manager/redirect-inside-flight";
 		} else {
 			session.setAttribute("validation_error", "There was an error with validating");
 			session.setAttribute("errors", result.getAllErrors());
-			return "redirect:/manager/redirect";
+			return "redirect:/manager/redirect-inside-flight";
 		}
 
 	}
 	@GetMapping("/redirect-addPlane")
-	public String redirectAddPlane() {
+	public String redirectAddPlane(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("successful_insertion");
+		session.removeAttribute("unsuccessful_insertion");
+		session.removeAttribute("validation_error");
+		session.removeAttribute("errors");
 		return "addingPlane";
 	}
 
@@ -131,7 +141,7 @@ public class ManagerController {
 			session.setAttribute("validation_error", "There was an error with validating");
 			session.setAttribute("errors", result.getAllErrors());
 		}
-		return "addingPlane";
+		return "redirect:/manager/redirect-inside-plane";
 	}
 	
 	@GetMapping("/redirect-hire")
@@ -152,7 +162,20 @@ public class ManagerController {
 	}
 	
 	@GetMapping("/redirect-delay")
-	public ModelAndView redirectDelay(@CookieValue("jwt") String jwt) {
+	public ModelAndView redirectDelay(@CookieValue("jwt") String jwt, HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("delayFlight");
+		List<Flight> flights = managerService.getFlights(jwt);
+		modelAndView.addObject("flights", flights);
+		HttpSession session = request.getSession();
+		session.removeAttribute("successfull_delay");
+		session.removeAttribute("unsuccessfull_delay");
+		session.removeAttribute("successfull_cancel");
+		session.removeAttribute("usuccessfull_cancel");
+		return modelAndView;
+	}
+	
+	@GetMapping("/redirect-inside-delay")
+	public ModelAndView redirectInsideDelay(@CookieValue("jwt") String jwt) {
 		ModelAndView modelAndView = new ModelAndView("delayFlight");
 		List<Flight> flights = managerService.getFlights(jwt);
 		modelAndView.addObject("flights", flights);
@@ -165,25 +188,48 @@ public class ManagerController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("successfull_delay");
 		session.removeAttribute("unsuccessfull_delay");
+		session.removeAttribute("successfull_cancel");
+		session.removeAttribute("usuccessfull_cancel");
 		if(result.startsWith("Success")) {
 			session.setAttribute("successfull_delay", result);
-			return "redirect:/manager/redirect-delay";
+			return "redirect:/manager/redirect-inside-delay";
 		}else {
 			session.setAttribute("unsuccessfull_delay", result);
-			return "redirect:/manager/redirect-delay";
+			return "redirect:/manager/redirect-inside-delay";
 		}
 	}
 	
 	@PostMapping("/cancel-flight")
 	public String cancelFlight(@RequestParam("flightId") Integer flightId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
+		session.removeAttribute("successfull_delay");
+		session.removeAttribute("unsuccessfull_delay");
+		session.removeAttribute("successfull_cancel");
+		session.removeAttribute("usuccessfull_cancel");
 		String result = managerService.cancelFlight(flightId);
 		if(result.startsWith("Success")) {
 			session.setAttribute("successfull_cancel", result);
-			return "redirect:/manager/redirect-delay";
+			return "redirect:/manager/redirect-inside-delay";
 		}
 		session.setAttribute("unsuccessfull_cancel", result);
-		return "redirect:/manager/redirect-delay";
+		return "redirect:/manager/redirect-inside-delay";
+	}
+	
+	@GetMapping("/redirect-inside-flight")
+	public ModelAndView redirectInsideFlight(@CookieValue("jwt") String jwt) {
+		List<Airport> airports = managerService.getAllAirports();
+		List<Plane> planes = managerService.getAllPlanes(jwt);
+		List<AppUser> employees = managerService.getAllEmployees(jwt);
+		ModelAndView modelAndView = new ModelAndView("addingFlights");
+		modelAndView.addObject("airports", airports);
+		modelAndView.addObject("planes", planes);
+		modelAndView.addObject("employees", employees);
+		return modelAndView;
+	}
+	
+	@GetMapping("/redirect-inside-plane")
+	public String redirectInsidePlane() {
+		return "addingPlane";
 	}
 	
 	@InitBinder

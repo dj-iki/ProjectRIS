@@ -152,6 +152,11 @@
 			<artifactId>batik-anim</artifactId>
 			<version>1.14</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

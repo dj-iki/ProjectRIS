@@ -1,13 +1,14 @@
 package com.example.demo.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dtos.AppUserDTO;
 import com.example.demo.services.UpdateAccountService;
@@ -25,13 +26,14 @@ public class UpdateAccountController {
 	UpdateAccountService updateAccountService;
 
 	@GetMapping("/redirect")
-	public String redirectAccount(@CookieValue("jwt") String jwt, Model model, HttpServletRequest request) {
+	public ModelAndView redirectAccount(@CookieValue("jwt") String jwt, HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView("updateAccount");
 		AppUserDTO appUserDTO = updateAccountService.getAppUser(jwt);
-		model.addAttribute("appUserDTO", appUserDTO);
+		modelAndView.addObject("appUserDTO", appUserDTO);
 		HttpSession session = request.getSession();
 		session.removeAttribute("successfull_update");
 		session.removeAttribute("unsuccessfull_update");
-		return "updateAccount";
+		return modelAndView;
 	}
 
 	@ModelAttribute("appUserDTO")
@@ -48,7 +50,7 @@ public class UpdateAccountController {
 			session.setAttribute("successfull_update", "Name updated successfully");
 		else
 			session.setAttribute("unsuccessfull_update", "Error while updating name");
-		return "redirect:/account/redirect";
+		return "redirect:/account/redirect-inside";
 	}
 
 	@PostMapping("/updateSurname")
@@ -60,7 +62,7 @@ public class UpdateAccountController {
 			session.setAttribute("successfull_update", "Surname updated successfully");
 		else
 			session.setAttribute("unsuccessfull_update", "Error while updating surname");
-		return "redirect:/account/redirect";
+		return "redirect:/account/redirect-inside";
 	}
 
 	@PostMapping("/updateEmail")
@@ -72,7 +74,7 @@ public class UpdateAccountController {
 			session.setAttribute("successfull_update", "Email updated successfully");
 		else
 			session.setAttribute("unsuccessfull_update", "Error while updating email");
-		return "redirect:/account/redirect";
+		return "redirect:/account/redirect-inside";
 	}
 
 	@PostMapping("/updateUsername")
@@ -91,7 +93,7 @@ public class UpdateAccountController {
 			session.setAttribute("successfull_update", "Successfully updated username");
 		} else
 			session.setAttribute("unsuccessfull_update", result);
-		return "redirect:/account/redirect";
+		return "redirect:/account/redirect-inside";
 	}
 
 	@PostMapping("/updatePassword")
@@ -105,7 +107,7 @@ public class UpdateAccountController {
 			session.setAttribute("successfull_update", result);
 		} else
 			session.setAttribute("unsuccessfull_update", result);
-		return "redirect:/account/redirect";
+		return "redirect:/account/redirect-inside";
 	}
 	
 	@PostMapping("/delete")
@@ -126,5 +128,13 @@ public class UpdateAccountController {
 		}
 		session.setAttribute("unsuccessfull_update", result);
 		return "redirect:/account/redirect";
+	}
+	
+	@GetMapping("/redirect-inside")
+	public ModelAndView redirectInside(@CookieValue("jwt") String jwt) {
+		ModelAndView modelAndView = new ModelAndView("updateAccount");
+		AppUserDTO appUserDTO = updateAccountService.getAppUser(jwt);
+		modelAndView.addObject("appUserDTO", appUserDTO);
+		return modelAndView;
 	}
 }
