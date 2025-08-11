@@ -77,7 +77,7 @@
 	<div id="name" style="display: none">
 		<form:form method="post" action="/ProjectRIS/account/updateName" modelAttribute="appUserDTO">
 			<input type="hidden" name="oldUsername" value="${appUserDTO.oldUsername }"/>
-			<input type="text" name="name" placeholder="${appUserDTO.name }" />
+			<input type="text" name="name" placeholder="${appUserDTO.name }" required pattern="[a-zA-Z ]{2,100}"/>
 			<input type="submit" value="Update">
 		</form:form>
 	</div>
@@ -85,7 +85,7 @@
 	<div id="surname"  style="display: none">
 		<form:form method="post" action="/ProjectRIS/account/updateSurname" modelAttribute="appUserDTO">
 			<input type="hidden" name="oldUsername" value="${appUserDTO.oldUsername }"/>
-			<input type="text" name="surname" placeholder="${appUserDTO.surname }" />
+			<input type="text" name="surname" placeholder="${appUserDTO.surname }" required pattern="[a-zA-Z ]{2,100}" />
 			<input type="submit" value="Update">
 		</form:form>
 	</div>
@@ -93,7 +93,7 @@
 	<div id="email"  style="display: none">
 		<form:form method="post" action="/ProjectRIS/account/updateEmail" modelAttribute="appUserDTO">
 			<input type="hidden" name="oldUsername" value="${appUserDTO.oldUsername }"/>
-			<input type="text" name="email" placeholder="${appUserDTO.email }"/>
+			<input type="text" name="email" placeholder="${appUserDTO.email }" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}"/>
 			<input type="submit" value="Update">
 		</form:form>
 	</div>
@@ -101,7 +101,7 @@
 	<div id="username"  style="display: none">
 		<form:form method="post" action="/ProjectRIS/account/updateUsername" modelAttribute="appUserDTO">
 			<input type="hidden" name="oldUsername" value="${appUserDTO.oldUsername }"/>
-			<input type="text" name="newUsername" placeholder="${appUserDTO.oldUsername }"/>
+			<input type="text" name="newUsername" placeholder="${appUserDTO.oldUsername }" required pattern=".{4,16}"/>
 			<input type="submit" value="Update">
 		</form:form>
 	</div>
@@ -109,8 +109,8 @@
 	<div id="password"  style="display: none">
 		<form:form method="post" action="/ProjectRIS/account/updatePassword" modelAttribute="appUserDTO">
 			<input type="hidden"  name="oldUsername" value="${appUserDTO.oldUsername }"/>
-			<form:input type="password" path="oldPassword"/><br>
-			<form:input type="password" path="newPassword" />
+			<form:input type="password" path="oldPassword" required="required"/><br>
+			<form:input type="password" path="newPassword" required="required" pattern="[a-zA-Z0-9@#$%^&+=!_-]+"/>
 			<input type="submit" value="Update">
 		</form:form>
 	</div>
@@ -118,7 +118,7 @@
 	<div id="delete" style="display: none">
 		<form:form method="post" action="/ProjectRIS/account/delete" modelAttribute="appUserDTO">
 			<input type="hidden"  name="oldUsername" value="${appUserDTO.oldUsername }"/>
-			<form:input type="password" path="oldPassword"/>
+			<form:input type="password" path="oldPassword" required="required"/>
 			<input type="submit" value="Delete">
 		</form:form>
 	</div>

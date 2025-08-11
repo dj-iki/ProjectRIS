@@ -32,11 +32,8 @@
 		<form:input path="surname" />
 
 		<br>
-		<label>Role:</label> 
-		<form:select path="role">
-			<form:options items="${roles }" itemValue="idRole" itemLabel="name" />
-		</form:select>
-		<br>
+		
+		<form:input type="hidden" path="role" value=1 />
 		<input type="submit" value="Register">
 	</form:form>
 	<c:if test="${!empty error_with_adding_user }">

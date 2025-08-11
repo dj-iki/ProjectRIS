@@ -9,13 +9,13 @@ import jakarta.validation.constraints.Size;
 
 public class BookingDTO {
 	
-	@NotNull
+	@NotNull(message="Departure flight must not be null")
 	private Integer flightIdFrom;
 	
 	private Integer flightIdReturning;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Number of seats must not be null")
+	@Min(value=1, message="Number of seats must be at least 1")
 	private Integer numberOfSeats;
 	
 	@Valid

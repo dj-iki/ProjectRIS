@@ -58,31 +58,21 @@
 							<fieldset class="ticket-card">
 								<legend>Ticket ${i + 1}</legend>
 								<form:input type="text" path="ticketsFromDTO[${i}].name"
-									placeholder="Name" id="from-name-${i }" required="required" pattern="[A-Za-zČĆŽŠĐčćžšđ]{2,100}"/>
-								<form:errors path="ticketsFromDTO[${i}].name"
-									cssClass="error-message" />
+									placeholder="Name" id="from-name-${i }"/>
 								<form:input type="text" path="ticketsFromDTO[${i}].surname"
-									placeholder="Surname" id="from-surname-${i }" required="required" pattern="[A-Za-zČĆŽŠĐčćžšđ]{2,100}"/>
-								<form:errors path="ticketsFromDTO[${i}].surname"
-									cssClass="error-message" />
+									placeholder="Surname" id="from-surname-${i }" />
 								<form:input type="text"
 									path="ticketsFromDTO[${i}].passportNumber"
-									placeholder="Passport Number" id="from-passportNumber-${i }" required="required" pattern="[A-Za-z0-9]{10,20}"/>
-								<form:errors path="ticketsFromDTO[${i}].passportNumber"
-									cssClass="error-message" />
-								<form:select path="ticketsFromDTO[${i}].seatId"
-									required="required">
+									placeholder="Passport Number" id="from-passportNumber-${i }"/>
+								<form:select path="ticketsFromDTO[${i}].seatId">
 									<form:options items="${seatsFrom}" itemValue="idSeat"
 										itemLabel="seatNumber" />
 								</form:select>
 								<div class="baggage-options">
 									<label><form:radiobutton
-											path="ticketsFromDTO[${i}].baggage" value="CARRY_ON"
-											required="required" />Carry-on</label> <label><form:radiobutton
-											path="ticketsFromDTO[${i}].baggage" value="CHECKED"
-											required="required" />Checked</label>
-									<form:errors path="ticketsFromDTO[${i}].baggage"
-										cssClass="error-message" />
+											path="ticketsFromDTO[${i}].baggage" value="CARRY_ON"/>Carry-on</label>
+									<label><form:radiobutton
+											path="ticketsFromDTO[${i}].baggage" value="CHECKED"/>Checked</label>
 								</div>
 							</fieldset>
 						</c:forEach>
@@ -93,31 +83,20 @@
 							<fieldset class="ticket-card">
 								<legend>Ticket ${i + 1}</legend>
 								<form:input type="text" path="ticketsReturningDTO[${i}].name"
-									placeholder="Name" required="required" id="returning-name-${i }" pattern="[A-Za-zČĆŽŠĐčćžšđ]{2,100}"/>
-								<form:errors path="ticketsReturningDTO[${i}].name"
-									cssClass="error-message" />
+									placeholder="Name" id="returning-name-${i }" />
 								<form:input type="text" path="ticketsReturningDTO[${i}].surname"
-									placeholder="Surname" required="required" id="returning-surname-${i }" pattern="[A-Za-zČĆŽŠĐčćžšđ]{2,100}"/>
-								<form:errors path="ticketsReturningDTO[${i}].surname"
-									cssClass="error-message" />
+									placeholder="Surname" id="returning-surname-${i }"/>
+								
 								<form:input type="text"
 									path="ticketsReturningDTO[${i}].passportNumber"
-									placeholder="Passport Number" id="returning-passportNumber-${i }" required="required" pattern="[A-Za-z0-9]{10,20}"/>
-								<form:errors path="ticketsReturningDTO[${i}].passportNumber"
-									cssClass="error-message" />
-								<form:select path="ticketsReturningDTO[${i}].seatId"
-									required="required">
+									placeholder="Passport Number" id="returning-passportNumber-${i }" />
+								<form:select path="ticketsReturningDTO[${i}].seatId">
 									<form:options items="${seatsReturning}" itemValue="idSeat"
 										itemLabel="seatNumber" />
 								</form:select>
 								<div class="baggage-options">
-									<label><form:radiobutton
-											path="ticketsReturningDTO[${i}].baggage" value="CARRY_ON"
-											required="required" />Carry-on</label> <label><form:radiobutton
-											path="ticketsReturningDTO[${i}].baggage" value="CHECKED"
-											required="required" /> Checked</label>
-									<form:errors path="ticketsReturningDTO[${i}].baggage"
-										cssClass="error-message" />
+									<label><form:radiobutton path="ticketsReturningDTO[${i}].baggage" value="CARRY_ON"/>Carry-on</label>
+									<label><form:radiobutton path="ticketsReturningDTO[${i}].baggage" value="CHECKED"/> Checked</label>
 								</div>
 							</fieldset>
 						</c:forEach>
@@ -142,30 +121,18 @@
 					<fieldset class="ticket-card">
 						<legend>Ticket ${i + 1}</legend>
 						<form:input type="text" path="ticketsFromDTO[${i}].name"
-							placeholder="Name" required="required" pattern="[A-Za-zČĆŽŠĐčćžšđ]{2,100}"/>
-						<form:errors path="ticketsFromDTO[${i}].name"
-							cssClass="error-message" />
+							placeholder="Name" />
 						<form:input type="text" path="ticketsFromDTO[${i}].surname"
-							placeholder="Surname" required="required" pattern="[A-Za-zČĆŽŠĐčćžšđ]{2,100}"/>
-						<form:errors path="ticketsFromDTO[${i}].surname"
-							cssClass="error-message" />
+							placeholder="Surname"/>
 						<form:input type="text" path="ticketsFromDTO[${i}].passportNumber"
-							placeholder="Passport Number" required="required" pattern="[A-Za-z0-9]{10,20}"/>
-						<form:errors path="ticketsFromDTO[${i}].passportNumber"
-							cssClass="error-message" />
-						<form:select path="ticketsFromDTO[${i}].seatId"
-							required="required">
+							placeholder="Passport Number" />
+						<form:select path="ticketsFromDTO[${i}].seatId">
 							<form:options items="${seatsFrom}" itemValue="idSeat"
 								itemLabel="seatNumber" />
 						</form:select>
 						<div class="baggage-options">
-							<label><form:radiobutton
-									path="ticketsFromDTO[${i}].baggage" value="CARRY_ON"
-									required="required" /> Carry-on</label> <label><form:radiobutton
-									path="ticketsFromDTO[${i}].baggage" value="CHECKED"
-									required="required" /> Checked</label>
-							<form:errors path="ticketsFromDTO[${i}].baggage"
-								cssClass="error-message" />
+							<label><form:radiobutton path="ticketsFromDTO[${i}].baggage" value="CARRY_ON"/> Carry-on</label> 
+							<label><form:radiobutton path="ticketsFromDTO[${i}].baggage" value="CHECKED"/> Checked</label>
 						</div>
 					</fieldset>
 				</c:forEach>

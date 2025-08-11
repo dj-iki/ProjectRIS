@@ -42,4 +42,10 @@ public interface AirportRepository extends JpaRepository<Airport, Integer> {
 				+ ")"
 			)
 	List<Airport> getReturningAirports(@Param("returningAirport") Airport returningAirport, @Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime, @Param("airports") List<Airport> airports, @Param("numberOfSeats") Integer numberOfSeats);
+
+	@Query("select a from Airport a where a.iataCode=:iata_code")
+	Airport findByIata_code(@Param("iata_code")String iata_code);
+	
+	@Query("select a from Airport a where a.icaoCode=:icao_code")
+	Airport findByIcao_code(@Param("icao_code")String icao_code);
 }

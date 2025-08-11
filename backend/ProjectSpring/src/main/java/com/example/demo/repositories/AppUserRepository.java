@@ -69,4 +69,14 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 	
 	@Query("select distinct au.email from AppUser au inner join au.bookings b where au.deleted=false and b.flight=:flight")
 	public List<String> getEmailsForNotification(@Param("flight") Flight flight);
+	
+	@Transactional
+	@Modifying
+	@Query("update AppUser au set au.role=:role where au=:appUser")
+	public int promoteEmployee(@Param("role") Role role, @Param("appUser") AppUser appUser);
+	
+	@Transactional
+	@Modifying
+	@Query("update AppUser au set au.role=:role, au.airline=:airline where au=:appUser")
+	public int promoteUser(@Param("role") Role role, @Param("appUser") AppUser appUser, @Param("airline") Airline airline);
 }
