@@ -32,7 +32,7 @@ public class AdminController {
 	AdminService adminService;
 	
 	@GetMapping("/redirect")
-	public ModelAndView redirectAddingCountry(HttpServletRequest request) {
+	public ModelAndView redirect(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("adding_city");
 		session.removeAttribute("adding_airport");

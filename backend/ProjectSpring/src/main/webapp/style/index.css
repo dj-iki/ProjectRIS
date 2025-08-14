@@ -1,0 +1,142 @@
+/* General page styles */
+/* General page styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+/* Navigation buttons */
+.nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.nav-buttons a button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.nav-buttons a button:hover {
+    background-color: #0056b3;
+}
+
+/* Result messages (c:choose output) */
+.result-message {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ffeeba;
+    max-width: 600px;
+    margin: 15px auto;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Search block containing checkbox + forms */
+.search-block {
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    max-width: 75%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Returning flight checkbox inside block */
+.returning-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Each form styling */
+.search-block form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+/* Inputs and selects */
+.search-block select,
+.search-block input[type="date"],
+.search-block input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Submit button */
+.search-block input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.search-block input[type="submit"]:hover {
+    background-color: #1e7e34;
+}
+
+
+/* Messages */
+.message {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ffeeba;
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+/* Error box */
+.error-box {
+    border: 2px solid #ff4d4d;
+    background-color: #ffe6e6;
+    color: #a70000;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 15px auto;
+    max-width: 600px;
+}
+
+.error-box h4 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.error-box p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.error-separator {
+    border: none;
+    border-top: 1px solid #ff4d4d;
+    margin: 10px 0;
+}
+

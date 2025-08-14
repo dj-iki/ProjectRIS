@@ -48,6 +48,8 @@ public class LoginAndRegistration {
 	public String showLoginForm(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("successfull_update");
+		session.removeAttribute("validation_error");
+		session.removeAttribute("errors");
 		return "login";
 	}
 	
@@ -88,7 +90,7 @@ public class LoginAndRegistration {
 
 	    response.addCookie(cookie);
 
-	    return "login";
+	    return "redirect:/auth/redirect-login";
 	}
 
 

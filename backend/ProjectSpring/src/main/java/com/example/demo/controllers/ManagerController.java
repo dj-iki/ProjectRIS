@@ -111,8 +111,8 @@ public class ManagerController {
 	}
 
 	@PostMapping("/save-plane")
-	public String insertPlane(@Valid @ModelAttribute("planeDTO") PlaneDTO planeDTO, @CookieValue("jwt") String jwt,
-			BindingResult result, HttpServletRequest request) {
+	public String insertPlane(@Valid @ModelAttribute("planeDTO") PlaneDTO planeDTO, BindingResult result, @CookieValue("jwt") String jwt,
+			 HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("successful_insertion");
 		session.removeAttribute("unsuccessful_insertion");

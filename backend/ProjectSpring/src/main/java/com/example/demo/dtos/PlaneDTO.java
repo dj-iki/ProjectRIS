@@ -6,52 +6,52 @@ import jakarta.validation.constraints.NotNull;
 
 public class PlaneDTO {
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message="Registration number is required.")
+	@NotBlank(message="Registration number cannot be empty.")
 	private String registrationNumber;
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message="Manufacturer is required.")
+	@NotBlank(message="Manufacturer cannot be empty.")
 	private String manufacturer;
 	
-	@NotNull
-	@NotBlank
+	@NotNull(message="Model is required.")
+	@NotBlank(message="Model cannot be empty.")
 	private String model;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Number of economy seats is required.")
+	@Min(value=1, message="Number of economy seats must be at least 1.")
 	private Integer numberOfEconomySeats;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Number of economy plus seats is required.")
+	@Min(value=1, message="Number of economy plus seats must be at least 1.")
 	private Integer numberOfEconomyPlusSeats;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Number of business seats is required.")
+	@Min(value=1, message="Number of business seats must be at least 1.")
 	private Integer numberOfBusinessSeats;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Economy price is required.")
+	@Min(value=1, message="Economy price must be at least 1.")
 	private Integer economyPrice;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Economy Plus price is required.")
+	@Min(value=1, message="Economy Plus price must be at least 1.")
 	private Integer economyPlusPrice;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Business price is required.")
+	@Min(value=1, message="Business price must be at least 1.")
 	private Integer businessPrice;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Number of business rows is required.")
+	@Min(value=1, message="Number of business rows must be at least 1.")
 	private Integer numberOfBusinessRows;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Number of economy rows is required.")
+	@Min(value=1, message="Number of economy rows must be at least 1.")
 	private Integer numberOfEconomyRows;
 	
-	@NotNull
-	@Min(value=1)
+	@NotNull(message="Number of economy plus rows is required.")
+	@Min(value=1, message="Number of economy plus rows must be at least 1.")
 	private Integer numberOfEconomyPlusRows;
 
 	public String getRegistrationNumber() {

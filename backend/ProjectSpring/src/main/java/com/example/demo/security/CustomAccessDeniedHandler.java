@@ -17,7 +17,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler{
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		response.sendRedirect("redirect:/search/redirect");
+		response.sendRedirect("/ProjectRIS/search/redirect");
 	}
 
 }
