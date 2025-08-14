@@ -1,0 +1,124 @@
+@charset "UTF-8";
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+}
+/* Navigation bar buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-buttons a button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.nav-buttons a button:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* Messages */
+.message-box {
+    text-align: center;
+    margin-top: 15px;
+}
+.success {
+    color: green;
+    font-weight: bold;
+}
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Form container */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+}
+form {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 350px;
+}
+form input[type="datetime-local"],
+form select {
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Employee checkboxes grid */
+.employee-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 5px;
+}
+.employee-checkboxes label {
+    background: #f1f1f1;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+/* Submit button */
+form input[type="submit"] {
+    background-color: #4cafef;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+form input[type="submit"]:hover {
+    background-color: #3a9cdc;
+}
+
+
+/* Error box */
+.error-box {
+    border: 2px solid #ff4d4d;
+    background-color: #ffe6e6;
+    color: #a70000;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 15px auto;
+    max-width: 600px;
+}
+
+.error-box h4 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.error-box p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.error-separator {
+    border: none;
+    border-top: 1px solid #ff4d4d;
+    margin: 10px 0;
+}

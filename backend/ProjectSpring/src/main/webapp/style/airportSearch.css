@@ -1,0 +1,59 @@
+@charset "UTF-8";
+/* Navigation bar buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-buttons a button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.nav-buttons a button:hover {
+    background-color: #0056b3;
+}
+/* Center the airport search list */
+.airport-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Each airport item box */
+.airport-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin: 10px 0;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Style the airport search buttons */
+.airport-item button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.airport-item button:hover {
+    background-color: #0056b3;
+}

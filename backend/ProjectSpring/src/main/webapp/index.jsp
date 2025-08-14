@@ -23,6 +23,7 @@
 </head>
 <body>
 	<div class="nav-buttons">
+		<a href="/ProjectRIS/"><button>Home</button></a>
 		<sec:authorize access="!isAuthenticated()">
 			<a href="/ProjectRIS/auth/redirect-login"><button type="button">Log
 					in</button></a>

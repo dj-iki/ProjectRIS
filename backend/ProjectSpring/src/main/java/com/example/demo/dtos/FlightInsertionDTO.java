@@ -8,24 +8,24 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class FlightInsertionDTO {
-	@NotNull
+	@NotNull(message="Departure airport is required")
 	public Integer fromAirport;
 	
-	@NotNull
+	@NotNull(message="Arrival airport is required")
 	public Integer toAirport;
 	
-	@NotNull
-	@Future
+	@NotNull(message="Departure time is required")
+	@Future(message="Departure time must be in future")
 	public Date departure;
 	
-	@NotNull
-	@Future
+	@NotNull(message="Airrival time is required")
+	@Future(message="Arrival time must be in future")
 	public Date arrival;
 	
-	@NotNull
+	@NotNull(message="Employees are required")
 	public List<Integer> employees;
 	
-	@NotNull
+	@NotNull(message="Plane is required")
 	public Integer plane;
 
 	public Integer getFromAirport() {
