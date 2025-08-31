@@ -100,8 +100,9 @@
 									path="ticketsFromDTO[${i}].passportNumber"
 									placeholder="Passport Number" id="from-passportNumber-${i }"/>
 								<form:select path="ticketsFromDTO[${i}].seatId">
-									<form:options items="${seatsFrom}" itemValue="idSeat"
-										itemLabel="seatNumber" />
+									<c:forEach items="${seatsFrom }" var="s">
+										<option value="${s.idSeat }">${s.seatNumber } (${s.class_ })</option>
+									</c:forEach>
 								</form:select>
 								<div class="baggage-options">
 									<label><form:radiobutton
@@ -126,8 +127,9 @@
 									path="ticketsReturningDTO[${i}].passportNumber"
 									placeholder="Passport Number" id="returning-passportNumber-${i }" />
 								<form:select path="ticketsReturningDTO[${i}].seatId">
-									<form:options items="${seatsReturning}" itemValue="idSeat"
-										itemLabel="seatNumber" />
+									<c:forEach items="${seatsReturning }" var="s">
+										<option value="${s.idSeat }">${s.seatNumber } (${s.class_ })</option>
+									</c:forEach>
 								</form:select>
 								<div class="baggage-options">
 									<label><form:radiobutton path="ticketsReturningDTO[${i}].baggage" value="CARRY_ON"/>Carry-on</label>
@@ -162,8 +164,9 @@
 						<form:input type="text" path="ticketsFromDTO[${i}].passportNumber"
 							placeholder="Passport Number" />
 						<form:select path="ticketsFromDTO[${i}].seatId">
-							<form:options items="${seatsFrom}" itemValue="idSeat"
-								itemLabel="seatNumber" />
+							<c:forEach items="${seatsFrom }" var="s">
+								<option value="${s.idSeat }">${s.seatNumber } (${s.class_ })</option>
+							</c:forEach>
 						</form:select>
 						<div class="baggage-options">
 							<label><form:radiobutton path="ticketsFromDTO[${i}].baggage" value="CARRY_ON"/> Carry-on</label> 
