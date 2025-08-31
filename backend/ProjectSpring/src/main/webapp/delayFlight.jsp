@@ -59,6 +59,8 @@
 					<form:form action="/ProjectRIS/manager/delay-flight" method="post"
 						modelAttribute="flightDelayDTO">
 						<form:input type="hidden" path="flightId" value="${flight.idFlight}" />
+						<p>${flight.departureTime }</p>
+						<p>${flight.airport1.name } ---> ${flight.airport2.name }</p>
 						<label>Delay departure time:</label>
 						<input type="datetime-local" name="departure">
 						<label>Delay arrival time:</label>

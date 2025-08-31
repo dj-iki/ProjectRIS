@@ -91,7 +91,7 @@ public class FlightBookingController {
 			}
 			model.addAttribute("flightDTO", new FlightSearchDTO());
 			model.addAttribute("successfull_booking", bookingResult);
-			return "index";
+			return "redirect:/search/redirect";
 		}else {
 			redirectAttributes.addFlashAttribute("bookingDTO", bookingDTO);
 			model.addAttribute("validation_error", "There was an error with validating");
