@@ -1,0 +1,9 @@
+<div class="city-list">
+    @for(city of cities; track city.cityId){
+        <div class="city-card">
+            <p>{{city.name}}</p>
+            <button (click)="redirect(city.cityId)">Search</button>
+        </div>
+    }
+</div>
+{{citiesError}}

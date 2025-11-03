@@ -5,6 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dtos.FlightSearchDTO;
@@ -239,4 +243,35 @@ public class FlightSearchService {
 		Airport airport = airportRepository.findById(id).get();
 		return airport.getName() + " (" + airport.getIataCode() + ")";
 	}
+	
+	public Page<Flight> getAllFlightsFromToPage(FlightSearchDTO flightDTO) {
+		try {
+			Airport from = airportRepository.findById(flightDTO.getFromAirport()).get();
+			Airport to = airportRepository.findById(flightDTO.getToAirport()).get();
+			if (flightDTO.getDepartureDate().compareTo(new Date()) <= 0) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(flightDTO.getDepartureDate());
+				calendar.add(Calendar.DAY_OF_YEAR, 1);
+				Date dayAfter = calendar.getTime();
+				flightDTO.setDepartureDate(new Date());
+				Pageable pageable = PageRequest.of(0, 10, Sort.by("departureTime"));
+				Page<Flight> flights = flightRepository.getAllFlightsFromTo(from, to, flightDTO.getDepartureDate(),
+						dayAfter, flightDTO.getNumberOfSeats(), pageable);
+				return flights;
+			} else {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(flightDTO.getDepartureDate());
+				calendar.add(Calendar.DAY_OF_YEAR, 1);
+				Date dayAfter = calendar.getTime();
+				Pageable pageable = PageRequest.of(0, 10, Sort.by("departureTime"));
+				Page<Flight> flights = flightRepository.getAllFlightsFromTo(from, to, flightDTO.getDepartureDate(),
+						dayAfter, flightDTO.getNumberOfSeats(), pageable);
+				return flights;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
 }

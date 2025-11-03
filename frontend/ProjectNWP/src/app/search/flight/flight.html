@@ -1,0 +1,73 @@
+@if(!returning.length){
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="flight-column">
+    @for(flight of flights; track flight.idFlight){
+        <label class="flight-card">
+          <input type="radio" name="fromFlight" [value]="flight.idFlight" class="flight-radio" formControlName="fromFlight">
+          <div class="flight-info">
+            <p class="flight-number">{{flight.flightNumber}} - {{flight.airlinesName}}</p>
+            <p class="flight-route">
+              {{flight.airportFromName}} ({{flight.airportFromIata}})
+              <span class="arrow">→</span>
+              {{flight.airportToName}} ({{flight.airportToIata}})
+            </p>
+            <p class="flight-time">
+              {{flight.departureTime | date: 'short'}}<span class="arrow">→</span>{{flight.arrivalTime | date: 'short'}}
+            </p>
+          </div>
+        </label>
+        
+    }
+  </div>
+  @if (isReq('fromFlight')) {
+  <div class="invalid-feedback d-block">This field is required</div>
+  }
+  <button type="submit" class="btn btn-primary">Book</button>
+</form>
+}@else{
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="flight-container">
+    <div class="flight-column">
+      @for(flight of flights; track flight.idFlight){
+          <label class="flight-card">
+            <input type="radio" name="fromFlight" [value]="flight.idFlight" class="flight-radio" formControlName="fromFlight">
+            <div class="flight-info">
+              <p class="flight-number">{{flight.flightNumber}} - {{flight.airlinesName}}</p>
+              <p class="flight-route">
+                {{flight.airportFromName}} ({{flight.airportFromIata}})
+                <span class="arrow">→</span>
+                {{flight.airportToName}} ({{flight.airportToIata}})
+              </p>
+              <p class="flight-time">
+                {{flight.departureTime | date: 'short'}}<span class="arrow">→</span>{{flight.arrivalTime | date: 'short'}}
+              </p>
+            </div>
+          </label>
+      }
+    </div>
+    @if (isReq('fromFlight')) {
+    <div class="invalid-feedback d-block">This field is required</div>
+    }
+    <div class="flight-column">
+      @for(flight of returning; track flight.idFlight){
+          <label class="flight-card">
+            <input type="radio" name="returningFlight" [value]="flight.idFlight" class="flight-radio" formControlName="returningFlight">
+            <div class="flight-info">
+              <p class="flight-number">{{flight.flightNumber}} - {{flight.airlinesName}}</p>
+              <p class="flight-route">
+                {{flight.airportFromName}} ({{flight.airportFromIata}})
+                <span class="arrow">→</span>
+                {{flight.airportToName}} ({{flight.airportToIata}})
+              </p>
+              <p class="flight-time">
+                {{flight.departureTime | date: 'short'}}<span class="arrow">→</span>{{flight.arrivalTime | date: 'short'}}
+              </p>
+            </div>
+          </label>
+      }
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Book</button>
+</form>
+}
+{{ error }}

@@ -62,14 +62,14 @@
             <label>Arrival date and time:</label>
             <input type="datetime-local" name="arrival" required>
 			
-			<label>Departure ariport:</label>
+			<label>Departure airport:</label>
             <select name="fromAirport">
                 <c:forEach items="${airports }" var="airport">
                     <option value="${airport.idAirport }">${airport.name } (${airport.iataCode })</option>
                 </c:forEach>
             </select>
 
-			<label>Arrival ariport:</label>
+			<label>Arrival airport:</label>
             <select name="toAirport">
                 <c:forEach items="${airports }" var="airport">
                     <option value="${airport.idAirport }">${airport.name } (${airport.iataCode })</option>

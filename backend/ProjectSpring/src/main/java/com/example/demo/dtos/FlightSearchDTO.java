@@ -10,20 +10,15 @@ import jakarta.validation.constraints.NotNull;
 
 public class FlightSearchDTO {
 
-	@NotNull(message="Departure Airport cannot be null")
+	
 	private Integer fromAirport;
 	
 	private Integer toAirport;
 	
-	@NotNull(message="Number of seats cannot be null")
-	@Min(value=1)
 	private Integer numberOfSeats;
 
-	@NotNull(message="Departure date cannot be null")
-	@DateFutureOrPresent
 	private Date departureDate;
 	
-	@Future(message="Returning date must be in future")
 	private Date returningDate;
 
 	public Integer getFromAirport() {
@@ -64,6 +59,12 @@ public class FlightSearchDTO {
 
 	public void setNumberOfSeats(Integer numberOfSeats) {
 		this.numberOfSeats = numberOfSeats;
+	}
+
+	@Override
+	public String toString() {
+		return "FlightSearchDTO [fromAirport=" + fromAirport + ", toAirport=" + toAirport + ", numberOfSeats="
+				+ numberOfSeats + ", departureDate=" + departureDate + ", returningDate=" + returningDate + "]";
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.repositories.AppUserRepository;
 import com.example.demo.repositories.FlightRepository;
+import com.example.demo.security.JWTService;
 
 import model.AppUser;
 import model.Flight;
@@ -21,8 +22,19 @@ public class EmployeeService {
 	@Autowired
 	FlightRepository flightRepository;
 	
-	public List<Flight> getEmployeeFlights(String jwt){
+	@Autowired
+	JWTService jwtService;
+	
+	public List<Flight> getEmployeeFlights(String jwt){	
 		AppUser appUser = appUserRepository.findAppUserByUsername(jwt);
+		Date date = new Date();
+		return flightRepository.findAllEmployeeFlights(appUser, date);
+		
+	}
+	
+	public List<Flight> getEmployeeFlightsJwt(String jwt){
+		String username = jwtService.extractUsername(jwt);
+		AppUser appUser = appUserRepository.findAppUserByUsername(username);
 		Date date = new Date();
 		return flightRepository.findAllEmployeeFlights(appUser, date);
 		

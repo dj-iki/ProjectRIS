@@ -44,7 +44,7 @@ public class RegistrationService {
 				appUser.setEmail(appUserDTO.getEmail());
 				appUser.setName(appUserDTO.getName());
 				appUser.setSurname(appUserDTO.getSurname());
-				appUser.setRole(getRoleById(appUserDTO.getRole()));
+				appUser.setRole(getRoleById(1));
 				
 				appUser = appUserRepository.save(appUser);
 				return "Successful registration";

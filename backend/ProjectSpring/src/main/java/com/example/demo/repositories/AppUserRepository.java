@@ -23,28 +23,28 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.name=:name where au.username=:username")
+	@Query("update AppUser au set au.name=:name where au.username=:username and au.deleted=false")
 	public int updateAppUserName(@Param("name") String name, @Param("username") String username);
 
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.surname=:surname where au.username=:username")
+	@Query("update AppUser au set au.surname=:surname where au.username=:username and au.deleted=false")
 	public int updateAppUserSurname(@Param("surname") String surname, @Param("username") String username);
 
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.email=:email where au.username=:username")
+	@Query("update AppUser au set au.email=:email where au.username=:username and au.deleted=false")
 	public int updateAppUserEmail(@Param("email") String email, @Param("username") String username);
 
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.username=:newUsername where au.username=:oldUsername")
+	@Query("update AppUser au set au.username=:newUsername where au.username=:oldUsername and au.deleted=false")
 	public int updateAppUserUsername(@Param("oldUsername") String oldUsername,
 			@Param("newUsername") String newUsername);
 
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.password=:password where au.username=:username")
+	@Query("update AppUser au set au.password=:password where au.username=:username and au.deleted=false")
 	public int updateAppUserPassword(@Param("password") String password, @Param("username") String username);
 
 	@Query("select au from AppUser au where au.airline=:airline and au.role.name='EMPLOYEE' and au.deleted=false")
@@ -64,7 +64,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 	@Query("select au from AppUser au where au.email=:email and au.deleted=false")
 	public AppUser findAppUserByEmail(@Param("email") String email);
 	
-	@Query("select au from AppUser au inner join au.bookings b where b.flight=:flight")
+	@Query("select au from AppUser au inner join au.bookings b where b.flight=:flight and au.deleted=false")
 	public List<AppUser> getRecipients(@Param("flight") Flight flight);
 	
 	@Query("select distinct au.email from AppUser au inner join au.bookings b where au.deleted=false and b.flight=:flight")
@@ -72,11 +72,11 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.role=:role where au=:appUser")
+	@Query("update AppUser au set au.role=:role where au=:appUser and au.deleted=false")
 	public int promoteEmployee(@Param("role") Role role, @Param("appUser") AppUser appUser);
 	
 	@Transactional
 	@Modifying
-	@Query("update AppUser au set au.role=:role, au.airline=:airline where au=:appUser")
+	@Query("update AppUser au set au.role=:role, au.airline=:airline where au=:appUser and au.deleted=false")
 	public int promoteUser(@Param("role") Role role, @Param("appUser") AppUser appUser, @Param("airline") Airline airline);
 }

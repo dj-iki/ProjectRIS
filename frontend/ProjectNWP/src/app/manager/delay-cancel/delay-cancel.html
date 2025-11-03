@@ -1,0 +1,22 @@
+<div class="flights-container">
+    @for(flight of flights$ | async; let i=$index; track i){
+        <div class="flight-form">
+            <form [formGroup]="form" (ngSubmit)="submit(flight.id)">
+                <p>{{flight.departureTime | date:'short'}} ---> {{flight.arrivalTime | date:'short'}}</p>
+                <p>{{flight.airportFrom}} ---> {{flight.airportTo}}</p>
+                <label class="form-label">Delay departure time:</label>
+                <input type="datetime-local" formControlName="departureTime" class="form-control">
+                @if (reqMsg('departureTime')) {
+                <div class="invalid-feedback d-block">{{ reqMsg('departureTime') }}</div>
+                }
+                <label class="form-label">Delay arrival time:</label>
+                <input type="datetime-local" formControlName="arrivalTime" class="form-control">
+                @if (reqMsg('arrivalTime')) {
+                <div class="invalid-feedback d-block">{{ reqMsg('arrivalTime') }}</div>
+                }
+                <button type="submit" class="btn btn-success">Delay flight</button>            
+            </form>
+            <button class="btn btn-danger" (click)="cancel(flight.id)">Cancel flight</button>
+        </div>
+    }
+</div>

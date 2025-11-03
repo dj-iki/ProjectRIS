@@ -1,0 +1,92 @@
+<form [formGroup]="formCountry" (ngSubmit)="submitCountry()">
+    <legend>Add country</legend>
+    <label class="form-label">Enter country name</label>
+    <input type="text" formControlName="name" class="form-control">
+    @if (getError(formCountry,'name')) {
+    <div class="invalid-feedback d-block">{{ getError(formCountry,'name') }}</div>
+    }
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+<form [formGroup]="formCity" (ngSubmit)="submitCity()">
+    <legend>Add city</legend>
+    <label class="form-label">Enter city name</label>
+    <input type="text" formControlName="name" class="form-control">
+    @if (getError(formCity,'name')) {
+    <div class="invalid-feedback d-block">{{ getError(formCity,'name') }}</div>
+    }
+    <label class="form-label">Select country</label>
+    <select formControlName="country" class="form-select">
+    @for(country of countries; let i=$index; track i){
+        <option [value]="country.countryId">{{ country.name }}</option>
+    }
+    </select>
+    @if (getError(formCity,'country')) {
+    <div class="invalid-feedback d-block">Please select a country.</div>
+    }
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+<form [formGroup]="formAirport" (ngSubmit)="submitAirport()">
+    <legend>Add airport</legend>
+    <label class="form-label">Enter airport name</label>
+    <input type="text" formControlName="name" class="form-control">
+    @if (getError(formAirport,'name')) {
+    <div class="invalid-feedback d-block">{{ getError(formAirport,'name') }}</div>
+    }
+    <label class="form-label">Enter airport iata code</label>
+    <input type="text" formControlName="iataCode" class="form-control">
+    @if (getError(formAirport,'iataCode')) {
+    <div class="invalid-feedback d-block">Must be exactly 3 uppercase letters.</div>
+    }
+    <label class="form-label">Enter airport icao code</label>
+    <input type="text" formControlName="icaoCode" class="form-control">
+    @if (getError(formAirport,'icaoCode')) {
+    <div class="invalid-feedback d-block">Must be exactly 4 uppercase letters.</div>
+    }
+    <label class="form-label">Select city</label>
+    <select formControlName="city" class="form-select">
+    @for(city of cities; let i=$index; track i){
+        <option [value]="city.cityId">{{ city.name }}</option>
+    }
+    </select>
+    @if (getError(formAirport,'city')) {
+    <div class="invalid-feedback d-block">Please select a city.</div>
+    }
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+<form [formGroup]="formAirlines" (ngSubmit)="submitAirlines()">
+    <legend>Add airlines</legend>
+    <label class="form-label">Enter airlines name</label>
+    <input type="text" formControlName="name" class="form-control">
+    @if (getError(formAirlines,'name')) {
+    <div class="invalid-feedback d-block">{{ getError(formAirlines,'name') }}</div>
+    }
+    <label class="form-label">Enter airlines iata code</label>
+    <input type="text" formControlName="iataCode" class="form-control">
+    @if (getError(formAirlines,'iataCode')) {
+    <div class="invalid-feedback d-block">Must be exactly 2 uppercase letters.</div>
+    }
+    <label class="form-label">Enter airlines icao code</label>
+    <input type="text" formControlName="icaoCode" class="form-control">
+    @if (getError(formAirlines,'icaoCode')) {
+    <div class="invalid-feedback d-block">Must be exactly 3 uppercase letters.</div>
+    }
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+<form [formGroup]="formPromote" (ngSubmit)="submitPromote()">
+    <legend>Promote employee</legend>
+    <label class="form-label">Enter employee's username</label>
+    <input type="text" formControlName="username" class="form-control">
+    @if (getError(formPromote,'username')) {
+    <div class="invalid-feedback d-block">{{ getError(formPromote,'username') }}</div>
+    }
+    <label class="form-label">Select employee's airline</label>
+    <select formControlName="airlines" class="form-select">
+        @for(airline of airlines; let i=$index; track i){
+            <option [value]="airline.id">{{ airline.name }}</option>
+        }
+    </select>
+    @if (getError(formPromote,'airlines')) {
+    <div class="invalid-feedback d-block">Please select an airline.</div>
+    }
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
