@@ -1,0 +1,9 @@
+<div class="airport-list">
+    @for(airport of airports; track airport.id){
+        <div class="airport-card">
+            <p>{{airport.name}} ({{airport.iataCode}})</p>
+            <button (click)="redirect(airport.id)">Search</button>
+        </div>
+    }
+</div>
+{{airportsError}}

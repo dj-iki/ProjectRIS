@@ -1,0 +1,117 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+<div class="row">
+    <div class="col">
+        <label class="form-label">Registration number</label>
+        <input type="text" formControlName="registrationNumber" class="form-control">
+        @if (reqError('registrationNumber')) {
+            <div class="invalid-feedback d-block">This field is required.</div>
+        }
+    </div>
+    <div class="col">
+        <label class="form-label">Manufacturer</label>
+        <input type="text" formControlName="manufacturer" class="form-control">
+        @if (reqError('manufacturer')) {
+            <div class="invalid-feedback d-block">This field is required.</div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label class="form-label">Model</label>
+        <input type="text" formControlName="model" class="form-control">
+        @if (reqError('model')) {
+            <div class="invalid-feedback d-block">This field is required.</div>
+        }
+    </div>
+    <div class="col">
+        <label class="form-label">Economy seats</label>
+        <input type="number" formControlName="numberOfEconomySeats" class="form-control">
+        @if (reqError('numberOfEconomySeats')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('numberOfEconomySeats')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('numberOfEconomySeats') }}.</div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label class="form-label">Economy price</label>
+        <input type="number" formControlName="economyPrice" class="form-control">
+        @if (reqError('economyPrice')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('economyPrice')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('economyPrice') }}.</div>
+        }
+    </div>
+    <div class="col">
+        <label class="form-label">Economy rows</label>
+        <input type="number" formControlName="numberOfEconomyRows" class="form-control">
+        @if (reqError('numberOfEconomyRows')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('numberOfEconomyRows')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('numberOfEconomyRows') }}.</div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label class="form-label">Economy plus seats</label>
+        <input type="number" formControlName="numberOfEconomyPlusSeats" class="form-control">
+        @if (reqError('numberOfEconomyPlusSeats')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('numberOfEconomyPlusSeats')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('numberOfEconomyPlusSeats') }}.</div>
+        }
+    </div>
+    <div class="col">
+        <label class="form-label">Economy plus price</label>
+        <input type="number" formControlName="economyPlusPrice" class="form-control">
+        @if (reqError('economyPlusPrice')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('economyPlusPrice')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('economyPlusPrice') }}.</div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label class="form-label">Economy plus rows</label>
+        <input type="number" formControlName="numberOfEconomyPlusRows" class="form-control">
+        @if (reqError('numberOfEconomyPlusRows')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('numberOfEconomyPlusRows')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('numberOfEconomyPlusRows') }}.</div>
+        }
+    </div>
+    <div class="col">
+        <label class="form-label">Business seats</label>
+        <input type="number" formControlName="numberOfBusinessSeats" class="form-control">
+        @if (reqError('numberOfBusinessSeats')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('numberOfBusinessSeats')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('numberOfBusinessSeats') }}.</div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <label class="form-label">Business price</label>
+        <input type="number" formControlName="businessPrice" class="form-control">
+        @if (reqError('businessPrice')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('businessPrice')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('businessPrice') }}.</div>
+        }
+    </div>
+    <div class="col">
+        <label class="form-label">Business rows</label>
+        <input type="number" formControlName="numberOfBusinessRows" class="form-control">
+        @if (reqError('numberOfBusinessRows')) {
+        <div class="invalid-feedback d-block">This field is required.</div>
+        } @else if (minError('numberOfBusinessRows')) {
+        <div class="invalid-feedback d-block">Must be at least {{ minError('numberOfBusinessRows') }}.</div>
+        }
+    </div>
+</div>
+<button type="submit" class="btn btn-primary">Add plane</button>
+</form>

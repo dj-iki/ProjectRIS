@@ -1,0 +1,72 @@
+<button type="button" class="btn btn-success" (click)="toggleName()">Update name</button><br><br>
+@if(showName){
+    <form [formGroup]="formName" (ngSubmit)="updateName()">
+        <label class="form-label">Update name:</label>
+        <input class="form-control" type="text" formControlName="name" [placeholder]="account?.name">
+        @if (getError(formName,'name')) {
+        <div class="invalid-feedback d-block">{{ getError(formName,'name') }}</div>
+        }
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form><br>
+}
+<button type="button" class="btn btn-success" (click)="toggleSurname()">Update surname</button><br><br>
+@if(showSurname){
+<form [formGroup]="formSurname" (ngSubmit)="updateSurname()">
+    <label class="form-label">Update surname:</label>
+    <input class="form-control" type="text" formControlName="surname" [placeholder]="account?.surname">
+    @if (getError(formSurname,'surname')) {
+      <div class="invalid-feedback d-block">{{ getError(formSurname,'surname') }}</div>
+    }
+    <button class="btn btn-primary" type="submit">Update</button>
+</form><br>
+}
+<button type="button" class="btn btn-success" (click)="toggleEmail()">Update email</button><br><br>
+@if(showEmail){
+<form [formGroup]="formEmail" (ngSubmit)="updateEmail()">
+    <label class="form-label">Update email:</label>
+    <input class="form-control" type="text" formControlName="email" [value]="account?.email">
+    @if (getError(formEmail,'email')) {
+      <div class="invalid-feedback d-block">{{ getError(formEmail,'email') }}</div>
+    }
+    <button class="btn btn-primary" type="submit">Update</button>
+</form><br>
+}
+<button type="button" class="btn btn-success" (click)="toggleUsername()">Update username</button><br><br>
+@if(showUsername){
+<form [formGroup]="formUsername" (ngSubmit)="updateUsername()">
+    <label class="form-label">Update username:</label>
+    <input class="form-control" type="text" formControlName="username" [value]="account?.username">
+    @if (getError(formUsername,'username')) {
+      <div class="invalid-feedback d-block">{{ getError(formUsername,'username') }}</div>
+    }
+    <button class="btn btn-primary" type="submit">Update</button>
+</form><br>
+}
+<button type="button" class="btn btn-success" (click)="togglePassword()">Update password</button><br><br>
+@if(showPassword){
+<form [formGroup]="formPassword" (ngSubmit)="updatePassword()">
+    <label class="form-label">Old password:</label>
+    <input class="form-control" type="password" formControlName="oldPassword">
+    @if (getError(formPassword,'oldPassword')) {
+      <div class="invalid-feedback d-block">{{ getError(formPassword,'oldPassword') }}</div>
+    }
+    <label class="form-label">New password:</label>
+    <input class="form-control" type="password" formControlName="newPassword">
+    @if (getError(formPassword,'newPassword')) {
+      <div class="invalid-feedback d-block">{{ getError(formPassword,'newPassword') }}</div>
+    }
+    <button class="btn btn-primary" type="submit">Update</button>
+</form><br>
+}
+<button type="button" class="btn btn-success" (click)="toggleDelete()">Delete account</button><br><br>
+@if(showDelete){
+<form [formGroup]="formDelete" (ngSubmit)="delete()">
+    <label class="form-label">Delete account:</label>
+    <input class="form-control" type="password" formControlName="oldPassword" placeholder="Enter your password">
+    @if (getError(formDelete,'oldPassword')) {
+      <div class="invalid-feedback d-block">{{ getError(formDelete,'oldPassword') }}</div>
+    }
+    <button class="btn btn-primary" type="submit">Delete</button>
+</form><br>
+}
+

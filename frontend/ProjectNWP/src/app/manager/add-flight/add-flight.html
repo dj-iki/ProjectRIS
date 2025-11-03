@@ -1,0 +1,46 @@
+<form [formGroup]="form" (ngSubmit)="saveFlight()">
+    <label class="form-label">Departure date and time:</label>
+    <input type="datetime-local" formControlName="departureTime" class="form-control">
+    @if (getRequired(form,'departureTime')) {
+    <div class="invalid-feedback d-block">{{ getRequired(form,'departureTime') }}</div>
+    }
+    <label class="form-label">Arrival date and time:</label>
+    <input type="datetime-local" formControlName="arrivalTime" class="form-control">
+    @if (getRequired(form,'arrivalTime')) {
+    <div class="invalid-feedback d-block">{{ getRequired(form,'arrivalTime') }}</div>
+    }
+    <label class="form-label">Departure airport:</label>
+    <select formControlName="departureAirport" class="form-select">
+        @for(airport of airportsFrom; track airport.id){
+            <option [value]="airport.id">{{airport.name}} ({{airport.iataCode}})</option>
+        }
+    </select>
+    @if (getRequired(form,'departureAirport')) {
+    <div class="invalid-feedback d-block">{{ getRequired(form,'departureAirport') }}</div>
+    }
+    <label class="form-label">Arrival airport:</label>
+    <select formControlName="arrivalAirport" class="form-select">
+        @for(airport of airportsTo; track airport.id){
+            <option [value]="airport.id">{{airport.name}} ({{airport.iataCode}})</option>
+        }
+    </select>
+    @if (getRequired(form,'arrivalAirport')) {
+    <div class="invalid-feedback d-block">{{ getRequired(form,'arrivalAirport') }}</div>
+    }
+    <label class="form-label">Plane:</label>
+    <select formControlName="plane" class="form-select">
+        @for(plane of planes; track plane.planeId){
+            <option [value]="plane.planeId">{{plane.manufacturer}} {{plane.model}} {{plane.registrationNumber}}</option>
+        }
+    </select>
+    <label class="form-label">Employees:</label>
+    <br>
+    @for(employee of employees; track employee.id){
+        <label><input type="checkbox" [checked]="isChecked(employee.id)" (change)="toggle(employee.id, $event.target.checked)"name="employees" [value]="employee.id" class="form-check-input">{{employee.name}} {{employee.surname}}</label>
+    }
+    <br>
+    @if (getRequired(form,'employees')) {
+    <div class="text-danger small mt-1">This field is required.</div>
+    }
+    <button type="submit" class="btn btn-primary">Add flight</button>
+</form>

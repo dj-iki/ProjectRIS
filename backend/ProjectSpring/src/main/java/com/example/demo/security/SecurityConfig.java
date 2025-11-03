@@ -1,11 +1,14 @@
 package com.example.demo.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +42,8 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests(request -> request
 				.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/api/search/**")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
 				.requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
 				.requestMatchers(new AntPathRequestMatcher("/login.jsp")).permitAll()
 				.requestMatchers(new AntPathRequestMatcher("/registration.jsp")).permitAll()
@@ -65,6 +73,7 @@ public class SecurityConfig {
 						.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 						.accessDeniedHandler(customAccessDeniedHandler)
 				)
+				.cors(Customizer.withDefaults())				
 				.csrf(customizer -> customizer.disable())
 				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -85,6 +94,21 @@ public class SecurityConfig {
 	PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration config = new CorsConfiguration();
+	    config.setAllowedOrigins(List.of("http://localhost:4200"));
+	    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS","PATCH"));
+	    config.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
+	    config.setAllowCredentials(true);
+	    config.setMaxAge(3600L);
+
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", config);
+	    return source;
+	  }
+
 
 //	private SecurityScheme createAPIKeyScheme() {
 //		return new SecurityScheme().type(SecurityScheme.Type.HTTP).bearerFormat("JWT").scheme("bearer");

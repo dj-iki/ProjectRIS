@@ -91,12 +91,20 @@ public class UpdateAccountService {
 	}
 
 	public String deleteAccount(String username, String password) {
-		AppUser appUser = appUserRepository.findAppUserByUsername(username);
 		
+		AppUser appUser = appUserRepository.findAppUserByUsername(username);
+		if(!encoder.matches(password, appUser.getPassword()))
+			return "Error - password doesn't match";
 		if(appUserRepository.deleteUser(appUser) == 0) {
 			return "Error - account was not deleted"; 
 		}
 		
 		return "Account was deleted successfully";
+	}
+	
+	public AppUser appUser(String jwt) {
+		String username = jwtService.extractUsername(jwt);
+		AppUser appUser =  appUserRepository.findAppUserByUsername(username);
+		return appUser;
 	}
 }

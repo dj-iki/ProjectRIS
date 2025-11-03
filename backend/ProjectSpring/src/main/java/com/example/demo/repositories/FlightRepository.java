@@ -1,9 +1,10 @@
 package com.example.demo.repositories;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -71,4 +72,20 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
 	@Query("select f from Flight f where f.departureTime>=:tomorrow and f.departureTime<:dayAfterTomorrow and f.canceled=false")
 	List<Flight> getFlightsForNotification(@Param("tomorrow") Date tomorrow, @Param("dayAfterTomorrow") Date dayAfterTomorrow);
 	
+	
+	@Query("select distinct f from Flight f "
+			+ "inner join f.plane.seats s "
+			+ "where f.airport1=:from and "
+				+ "f.airport2=:to and "
+				+ "f.departureTime>:departureFromTime and "
+				+ "f.departureTime<:departureToTime and "
+				+ "f.canceled=false and "
+				+ ":numberOfSeats<("
+				+ "select count(s.idSeat) from Seat s where s.plane = f.plane and s not in ("
+						+ "select t.seat from Ticket t where t.booking.flight = f" 
+					+ ")"
+				+ ")"
+			)
+	Page<Flight> getAllFlightsFromTo(@Param("from") Airport from, @Param("to") Airport to,
+			@Param("departureFromTime") Date departureFromTime, @Param("departureToTime") Date departureToTime, @Param("numberOfSeats") Integer numberOfSeats, Pageable pageable);
 }

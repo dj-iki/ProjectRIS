@@ -1,0 +1,9 @@
+<div class="country-list">
+    @for(country of countries; track country.countryId){
+        <div class="country-card">
+            <p>{{country.name}}</p>
+            <button (click)="redirect(country.countryId)">Search</button>
+        </div>
+    }
+</div>
+{{countriesError}}

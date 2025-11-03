@@ -1,0 +1,19 @@
+<div class="flight-container">
+    @for(flight of flights; let i=$index; track i){
+    <div class="flight-card">
+            <div class="flight-header">
+                {{flight.flightNumber}} — {{flight.airlinesName}}
+            </div>
+            <div class="flight-info">
+                {{flight.airportFromName}} ({{flight.airportFromIata}})
+                <span class="arrow">→</span>
+                {{flight.airportToName}} ({{flight.airportToIata}})
+            </div>
+            <div class="flight-info">
+                {{flight.departureTime | date: 'short'}} <span class="arrow">→</span> {{flight.arrivalTime | date: 'short'}}
+            </div>
+        </div>
+    }
+</div>
+
+{{httpError}}

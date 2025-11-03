@@ -1,0 +1,35 @@
+
+/* Flight container (flex layout for both pages) */
+.flight-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.flight-card {
+    width: 100%;
+    gap: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+/* Flight header text */
+.flight-header {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Flight info lines */
+.flight-info {
+    font-size: 14px;
+    margin: 4px 0;
+}
+
+.arrow {
+    font-weight: bold;
+    color: #007bff;
+}

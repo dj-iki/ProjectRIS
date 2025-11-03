@@ -1,0 +1,118 @@
+@if(returningFlightId == -1){
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        
+            <div formArrayName="ticketsFrom">
+                @for(ticket of ticketsFrom.controls; let i=$index; track i){
+                    <fieldset [formGroupName]="i" class="ticket-card">
+                        <legend>Ticket From {{ i + 1 }}</legend>
+                        <input type="text" formControlName="name" placeholder="Name">
+                        @if (getError(ticket.get('name'))) {
+                        <div class="invalid-feedback d-block">{{ getError(ticket.get('name')) }}</div>
+                        }
+                        <input type="text" formControlName="surname" placeholder="Surame">
+                        @if (getError(ticket.get('surname'))) {
+                        <div class="invalid-feedback d-block">{{ getError(ticket.get('surname')) }}</div>
+                        }
+                        <input type="text" formControlName="passportNumber" placeholder="Passport number">
+                        @if (getError(ticket.get('passportNumber'))) {
+                        <div class="invalid-feedback d-block">{{ getError(ticket.get('passportNumber')) }}</div>
+                        }
+                        <select formControlName="seatId">
+                        @for(seat of seatFrom; track seat.seatId){
+                            <option [value]="seat.seatId">{{ seat.seatNumber}} ({{seat._class}})</option>
+                        }
+                        </select>
+                        @if (getError(ticket.get('seatId'))) {
+                        <div class="invalid-feedback d-block">{{ getError(ticket.get('seatId')) }}</div>
+                        }
+                        <div class="baggage-options">
+                            <label><input type="radio" name="baggage" formControlName="baggage" value="CARRY_ON"/>Carry-on</label>
+                            <label><input type="radio" name="baggage" formControlName="baggage" value="CHECKED"/>Checked</label>
+                        </div>
+                        @if (getError(ticket.get('baggage'))) {
+                        <div class="invalid-feedback d-block">{{ getError(ticket.get('baggage')) }}</div>
+                        }
+                    </fieldset>        
+                }
+            </div>
+        <button type="submit" class="btn btn-primary">Book</button>
+        
+    </form>
+}@else{
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="ticket-container">
+        <div formArrayName="ticketsFrom">
+            @for(ticket of ticketsFrom.controls; let i=$index; track i){
+                <fieldset [formGroupName]="i" class="ticket-card">
+                    <legend>Ticket From {{ i + 1 }}</legend>
+                    <input type="text" formControlName="name" placeholder="Name">
+                    @if (getError(ticket.get('name'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('name')) }}</div>
+                    }
+                    <input type="text" formControlName="surname" placeholder="Surame">
+                    @if (getError(ticket.get('surname'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('surname')) }}</div>
+                    }
+                    <input type="text" formControlName="passportNumber" placeholder="Passport number">
+                    @if (getError(ticket.get('passportNumber'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('passportNumber')) }}</div>
+                    }
+                    <select formControlName="seatId">
+                    @for(seat of seatFrom; track seat.seatId){
+                        <option [value]="seat.seatId">{{ seat.seatNumber}} ({{seat._class}})</option>
+                    }
+                    </select>
+                    @if (getError(ticket.get('seatId'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('seatId')) }}</div>
+                    }
+                    <div class="baggage-options">
+                        <label><input type="radio" name="baggage" formControlName="baggage" value="CARRY_ON"/>Carry-on</label>
+                        <label><input type="radio" name="baggage" formControlName="baggage" value="CHECKED"/>Checked</label>
+                    </div>
+                    @if (getError(ticket.get('baggage'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('baggage')) }}</div>
+                    }
+                </fieldset>        
+            }
+        </div>
+        <div formArrayName="ticketsReturning">
+            @for(ticket of ticketsReturning.controls; let i=$index; track i){
+                <fieldset [formGroupName]="i" class="ticket-card">
+                    <legend>Ticket Returning {{ i + 1 }}</legend>
+                    <input type="text" formControlName="name" placeholder="Name">
+                    @if (getError(ticket.get('name'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('name')) }}</div>
+                    }
+                    <input type="text" formControlName="surname" placeholder="Surame">
+                    @if (getError(ticket.get('surname'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('surname')) }}</div>
+                    }
+                    <input type="text" formControlName="passportNumber">
+                    @if (getError(ticket.get('passportNumber'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('passportNumber')) }}</div>
+                    }
+                    <select formControlName="seatId">
+                    @for(seat of seatReturning; track seat.seatId){
+                        <option [value]="seat.seatId">{{ seat.seatNumber}} ({{seat._class}})</option>
+                    }
+                    </select>
+                    @if (getError(ticket.get('seatId'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('seatId')) }}</div>
+                    }
+                    <div class="baggage-options">
+                        <label><input type="radio" name="baggage" formControlName="baggage" value="CARRY_ON"/>Carry-on</label>
+                        <label><input type="radio" name="baggage" formControlName="baggage" value="CHECKED"/>Checked</label>
+                    </div>
+                    @if (getError(ticket.get('baggage'))) {
+                    <div class="invalid-feedback d-block">{{ getError(ticket.get('baggage')) }}</div>
+                    }
+                </fieldset>        
+            }
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Book</button>
+</form>
+}
+{{errorSeatFrom}}
+{{errorSeatReturning}}
+{{errorBooking}}

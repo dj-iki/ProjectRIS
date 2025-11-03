@@ -3,6 +3,7 @@ package com.example.demo.security;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.SecretKey;
 
@@ -23,6 +24,8 @@ public class JWTService {
 	private String secret;
 
 	private SecretKey secretKey;
+	
+	
 
 	@PostConstruct
 	public void init() {
@@ -31,7 +34,11 @@ public class JWTService {
 	}
 
 	public String generateToken(UserDetails userDetails) {
-		ClaimsBuilder claimsBuilder = Jwts.claims().subject(userDetails.getUsername());
+		List<String> roles = userDetails.getAuthorities().stream()
+			    .map(a -> a.getAuthority().replace("ROLE_", ""))
+			    .toList();
+		
+		ClaimsBuilder claimsBuilder = Jwts.claims().subject(userDetails.getUsername()).add("roles", roles);
 		Claims claims = claimsBuilder.build();
 		Date issuedAt = new Date();
 		Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60);

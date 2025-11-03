@@ -1,0 +1,49 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+    <div class="row justify-content-center">
+        <div class="col">
+            <label class="form-label" id="airportFrom">From:</label>
+            <select formControlName="airportFrom" [compareWith]="byId" class="form-select" id="airportFrom">
+                @for(airport of airports; track airport.id){
+                    <option [value]="airport.id">{{airport.name}}({{airport.iataCode}})</option>
+                }
+            </select>
+            @if (isReq('airportFrom')) {
+            <div class="invalid-feedback d-block">This field is required.</div>
+            }
+        </div>
+        <div class="col">
+            <label for="airportTo" class="form-label">Destination:</label>
+            <select formControlName="airportTo" [compareWith]="byId" class="form-select" id="airportTo">
+                @for(airport of airports; track airport.id){
+                    <option [value]="airport.id">{{airport.name}}({{airport.iataCode}})</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label for="dateFrom" class="form-label">Departure date:</label>
+            <input type="date" formControlName="dateFrom" class="form-control" id="dateFrom">
+            @if (isReq('dateFrom')) {
+                <div class="invalid-feedback d-block">This field is required.</div>
+            }
+        </div>
+        <div class="col">
+            <label for="dateReturning" class="form-label">Returning date:</label>
+            <input type="date" formControlName="dateReturning" class="form-control" id="dateReturning">
+        </div>
+        <div class="col">
+            <label for="numSeats" class="form-label">Number of seats:</label>
+            <input type="number" formControlName="numSeats" class="form-control" id="numSeats">
+            @if (isReq('numSeats')) {
+            <div class="invalid-feedback d-block">This field is required.</div>
+            } @else if (minErr('numSeats')) {
+            <div class="invalid-feedback d-block">Must be at least {{ minErr('numSeats') }}.</div>
+            }
+        </div>
+        <div class="col justify-content-center">
+            <br>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+{{ serverErrorAirport }}
+{{ serverErrorFlights }}

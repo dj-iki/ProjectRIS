@@ -1,0 +1,10 @@
+form {
+    background-color: gray;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    border: 1px black;
+    max-width: 600px;  /* narrower width */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 90%;  /* responsive width */
+}
